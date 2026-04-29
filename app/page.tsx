@@ -109,9 +109,14 @@ export default function MorningPage() {
     TODOS_SAMPLE.map((t) => ({ text: t, done: false })),
   );
   const [visible, setVisible] = useState(false);
+  const [weather, setWeather] = useState<{ summary: string; emoji: string } | null>(null);
 
   useEffect(() => {
     setTimeout(() => setVisible(true), 80);
+    fetch("/api/weather")
+      .then((r) => r.json())
+      .then(setWeather)
+      .catch(() => {});
   }, []);
 
   const toggleTodo = (i: number) =>
@@ -208,8 +213,8 @@ export default function MorningPage() {
             boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
           }}
         >
-          <span>🌫️</span>
-          <span>58°F · Foggy, clearing by noon</span>
+          <span>{weather?.emoji ?? "🌡️"}</span>
+          <span>{weather?.summary ?? "Loading…"}</span>
         </div>
       </div>
 
