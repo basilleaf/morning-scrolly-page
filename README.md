@@ -1,3 +1,5 @@
+personal morning page to scroll on my phone upon waking up in the mornings, so i don't look at socials or world news first thing 
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
