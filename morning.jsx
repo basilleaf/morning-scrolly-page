@@ -1,38 +1,104 @@
-"use client";
-
 import { useState, useEffect } from "react";
-import { TAO, BUDDHIST, AFFIRMATIONS, seededRandom } from "./_lib/content";
 
-const PEACH = "#FF8C6B";
-const PEACH_SOFT = "#FFD4C2";
-const LAVENDER = "#C5B8F5";
-const LAVENDER_BG = "#F0ECFF";
-const MINT = "#A8E6CF";
-const MINT_BG = "#EDFAF4";
-const BUTTER = "#FFE8A3";
-const BUTTER_BG = "#FFFBEE";
-const PAGE_BG = "#FFF8F5";
+// Pastel palette
+const PEACH = "#FF8C6B"; // warm coral-peach, main accent
+const PEACH_SOFT = "#FFD4C2"; // soft peach
+const LAVENDER = "#C5B8F5"; // soft lavender
+const LAVENDER_BG = "#F0ECFF"; // lavender tint background
+const MINT = "#A8E6CF"; // soft mint
+const MINT_BG = "#EDFAF4"; // mint tint
+const BUTTER = "#FFE8A3"; // butter yellow
+const BUTTER_BG = "#FFFBEE"; // butter tint
+const PAGE_BG = "#FFF8F5"; // warm white base
 
-const FONT_DISPLAY = "var(--font-righteous), sans-serif";
-const FONT_BODY = "var(--font-jakarta), sans-serif";
+function seededRandom(seed) {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return () => {
+    h ^= h << 13;
+    h ^= h >> 7;
+    h ^= h << 17;
+    return (h >>> 0) / 0xffffffff;
+  };
+}
+
+const TAO = [
+  {
+    verse: 1,
+    text: "The Tao that can be told is not the eternal Tao. The name that can be named is not the eternal name.",
+  },
+  {
+    verse: 8,
+    text: "The highest good is like water. Water gives life to the ten thousand things and does not strive.",
+  },
+  {
+    verse: 11,
+    text: "Thirty spokes share the wheel's hub; it is the center hole that makes it useful.",
+  },
+  {
+    verse: 16,
+    text: "Empty yourself of everything. Let the mind rest at peace. Return to the root is called stillness.",
+  },
+  {
+    verse: 22,
+    text: "Yield and overcome. Bend and be straight. Empty and be full. Wear out and be new.",
+  },
+  {
+    verse: 33,
+    text: "Knowing others is wisdom. Knowing yourself is enlightenment. Mastering others requires force. Mastering yourself requires strength.",
+  },
+  {
+    verse: 44,
+    text: "Fame or integrity: which is more important? Money or happiness: which is more valuable?",
+  },
+  {
+    verse: 48,
+    text: "In pursuit of learning, every day something is acquired. In pursuit of Tao, every day something is dropped.",
+  },
+  {
+    verse: 55,
+    text: "One who is filled with the Tao is like a newborn child. The infant is protected from harm.",
+  },
+  {
+    verse: 81,
+    text: "True words are not beautiful. Beautiful words are not true. The sage does not compete, and therefore no one can compete with her.",
+  },
+];
+
+const BUDDHIST = [
+  "The mind is everything. What you think, you become.",
+  "Peace comes from within. Do not seek it without.",
+  "You yourself, as much as anybody in the entire universe, deserve your love and affection.",
+  "Every morning we are born again. What we do today is what matters most.",
+  "If you are quiet enough, you will hear the flow of the universe.",
+  "The present moment is the only moment available to us, and it is the door to all moments.",
+  "When you realize how perfect everything is, you will tilt your head back and laugh at the sky.",
+  "Happiness is not something ready-made. It comes from your own actions.",
+];
+
+const AFFIRMATIONS = [
+  "I am exactly where I need to be.",
+  "My work creates real value in the world.",
+  "I move through uncertainty with grace.",
+  "I trust my own instincts.",
+  "Today I will do one thing beautifully.",
+  "Rest is not a reward — it is a practice.",
+  "I am building something that matters.",
+  "My creativity is a gift I give freely.",
+];
 
 const TODOS_SAMPLE = ["Water tomatoes", "gazebo top", "vacuum "];
 
-function Pill({
-  children,
-  color,
-  bg,
-}: {
-  children: React.ReactNode;
-  color: string;
-  bg: string;
-}) {
+function Pill({ children, color, bg }) {
   return (
     <span
       style={{
         display: "inline-block",
         background: bg,
-        color,
+        color: color,
         borderRadius: 99,
         padding: "3px 10px",
         fontSize: 11,
@@ -46,7 +112,7 @@ function Pill({
   );
 }
 
-function CheckIcon({ checked }: { checked: boolean }) {
+function CheckIcon({ checked }) {
   return (
     <div
       style={{
@@ -78,15 +144,7 @@ function CheckIcon({ checked }: { checked: boolean }) {
   );
 }
 
-function SectionLabel({
-  children,
-  color = PEACH,
-  bg = PEACH_SOFT + "55",
-}: {
-  children: React.ReactNode;
-  color?: string;
-  bg?: string;
-}) {
+function SectionLabel({ children, color = PEACH, bg = PEACH_SOFT + "55" }) {
   return (
     <div style={{ marginBottom: 14 }}>
       <Pill color={color} bg={bg}>
@@ -114,7 +172,7 @@ export default function MorningPage() {
     setTimeout(() => setVisible(true), 80);
   }, []);
 
-  const toggleTodo = (i: number) =>
+  const toggleTodo = (i) =>
     setTodos((prev) =>
       prev.map((t, idx) => (idx === i ? { ...t, done: !t.done } : t)),
     );
@@ -130,7 +188,7 @@ export default function MorningPage() {
     hour12: true,
   });
 
-  const fade = (delay: number): React.CSSProperties => ({
+  const fade = (delay) => ({
     opacity: visible ? 1 : 0,
     transform: visible ? "translateY(0)" : "translateY(14px)",
     transition: `opacity 0.55s ease ${delay}s, transform 0.55s ease ${delay}s`,
@@ -141,12 +199,18 @@ export default function MorningPage() {
       style={{
         minHeight: "100vh",
         background: PAGE_BG,
-        fontFamily: FONT_BODY,
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
         maxWidth: 430,
         margin: "0 auto",
         paddingBottom: 80,
       }}
     >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Righteous&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: ${PAGE_BG}; }
+      `}</style>
+
       {/* HERO DATE */}
       <div
         style={{
@@ -170,7 +234,7 @@ export default function MorningPage() {
 
         <div
           style={{
-            fontFamily: FONT_DISPLAY,
+            fontFamily: "'Righteous', sans-serif",
             fontSize: 58,
             lineHeight: 0.95,
             letterSpacing: "-1px",
@@ -182,7 +246,7 @@ export default function MorningPage() {
         </div>
         <div
           style={{
-            fontFamily: FONT_DISPLAY,
+            fontFamily: "'Righteous', sans-serif",
             fontSize: 38,
             lineHeight: 1,
             color: "#888",
@@ -478,7 +542,7 @@ export default function MorningPage() {
           </SectionLabel>
           <div
             style={{
-              fontFamily: FONT_DISPLAY,
+              fontFamily: "'Righteous', sans-serif",
               fontSize: 24,
               lineHeight: 1.35,
               color: "#4A3A10",
