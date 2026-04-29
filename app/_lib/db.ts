@@ -13,6 +13,28 @@ export async function initTodos() {
   `;
 }
 
+export async function initTaoReflections() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS tao_reflections (
+      verse       INT  PRIMARY KEY,
+      reflection  TEXT NOT NULL,
+      created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `;
+}
+
+export async function getTaoReflection(verse: number): Promise<string | null> {
+  const rows = await sql`SELECT reflection FROM tao_reflections WHERE verse = ${verse}`;
+  return rows[0]?.reflection ?? null;
+}
+
+export async function saveTaoReflection(verse: number, reflection: string) {
+  await sql`
+    INSERT INTO tao_reflections (verse, reflection) VALUES (${verse}, ${reflection})
+    ON CONFLICT (verse) DO NOTHING
+  `;
+}
+
 export type TodoRow = { id: number; text: string; done: boolean };
 
 export async function getTodos(): Promise<TodoRow[]> {

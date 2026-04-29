@@ -112,6 +112,7 @@ export default function MorningPage() {
     summary: string;
     emoji: string;
   } | null>(null);
+  const [taoReflection, setTaoReflection] = useState<string | null>(null);
 
   useEffect(() => {
     setTimeout(() => setVisible(true), 80);
@@ -122,6 +123,10 @@ export default function MorningPage() {
     fetch("/api/todos")
       .then((r) => r.json())
       .then(setTodos)
+      .catch(() => {});
+    fetch(`/api/tao-reflection?verse=${tao.verse}`)
+      .then((r) => r.json())
+      .then((d) => setTaoReflection(d.reflection ?? null))
       .catch(() => {});
   }, []);
 
@@ -546,6 +551,39 @@ export default function MorningPage() {
           >
             {tao.text}
           </div>
+          {taoReflection !== null && (
+            <div
+              style={{
+                marginTop: 16,
+                paddingTop: 16,
+                borderTop: `1px solid ${LAVENDER}`,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#9B8FC0",
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  marginBottom: 8,
+                }}
+              >
+                For today
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  lineHeight: 1.7,
+                  color: "#5B4A9B",
+                  fontStyle: "italic",
+                  fontWeight: 400,
+                }}
+              >
+                {taoReflection}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

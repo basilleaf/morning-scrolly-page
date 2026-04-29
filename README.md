@@ -2,6 +2,24 @@ personal morning page to scroll on my phone after waking up, so i don't look at 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+notes: 
+
+fetch Apple music playlist as json with: 
+
+curl -v "https://api.music.apple.com/v1/catalog/us/playlists/<playlist_id>?include=tracks" \
+  -H "Authorization: Bearer <Bearer token>" \
+  -H "Origin: https://music.apple.com"
+
+
+## Environment Variables
+
+Copy `.env.example` to `.env` (or `.env.local`) and fill in:
+
+| Variable | Description |
+|---|---|
+| `ANTHROPIC_API_KEY` | Anthropic API key — used to generate modern reflections on each day's Tao Te Ching verse. Reflections are cached in Postgres so each verse is only generated once. Get one at [console.anthropic.com](https://console.anthropic.com). |
+| `DATABASE_URL` | Neon Postgres connection string (pooled). |
+
 ## Getting Started
 
 First, run the development server:
