@@ -16,7 +16,6 @@ const PAGE_BG = "#FFF8F5";
 const FONT_DISPLAY = "var(--font-righteous), sans-serif";
 const FONT_BODY = "var(--font-jakarta), sans-serif";
 
-const TODOS_SAMPLE = ["Water tomatoes", "gazebo top", "vacuum "];
 
 function Pill({
   children,
@@ -105,9 +104,9 @@ export default function MorningPage() {
   const buddhist = BUDDHIST[Math.floor(rng() * BUDDHIST.length)];
   const affirmation = AFFIRMATIONS[Math.floor(rng() * AFFIRMATIONS.length)];
 
-  const [todos, setTodos] = useState(
-    TODOS_SAMPLE.map((t) => ({ text: t, done: false })),
-  );
+  type Todo = { id: number; text: string; done: boolean };
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [newTodo, setNewTodo] = useState("");
   const [visible, setVisible] = useState(false);
   const [weather, setWeather] = useState<{ summary: string; emoji: string } | null>(null);
 
@@ -117,12 +116,43 @@ export default function MorningPage() {
       .then((r) => r.json())
       .then(setWeather)
       .catch(() => {});
+    fetch("/api/todos")
+      .then((r) => r.json())
+      .then(setTodos)
+      .catch(() => {});
   }, []);
 
-  const toggleTodo = (i: number) =>
+  const toggleTodo = async (todo: Todo) => {
+    const next = !todo.done;
     setTodos((prev) =>
-      prev.map((t, idx) => (idx === i ? { ...t, done: !t.done } : t)),
+      prev.map((t) => (t.id === todo.id ? { ...t, done: next } : t)),
     );
+    await fetch(`/api/todos/${todo.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ done: next }),
+    });
+  };
+
+  const deleteTodo = async (id: number) => {
+    setTodos((prev) => prev.filter((t) => t.id !== id));
+    await fetch(`/api/todos/${id}`, { method: "DELETE" });
+  };
+
+  const addTodo = async () => {
+    const text = newTodo.trim();
+    if (!text) return;
+    setNewTodo("");
+    const res = await fetch("/api/todos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
+    if (res.ok) {
+      const todo = await res.json();
+      setTodos((prev) => [...prev, todo]);
+    }
+  };
 
   const dayName = now.toLocaleDateString("en-US", { weekday: "long" });
   const monthDay = now.toLocaleDateString("en-US", {
@@ -336,31 +366,91 @@ export default function MorningPage() {
             Today
           </SectionLabel>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            {todos.map((todo, i) => (
+            {todos.map((todo) => (
               <div
-                key={i}
-                onClick={() => toggleTodo(i)}
+                key={todo.id}
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: 14,
-                  cursor: "pointer",
                 }}
               >
-                <CheckIcon checked={todo.done} />
+                <div onClick={() => toggleTodo(todo)} style={{ cursor: "pointer" }}>
+                  <CheckIcon checked={todo.done} />
+                </div>
                 <span
+                  onClick={() => toggleTodo(todo)}
                   style={{
+                    flex: 1,
                     fontSize: 15,
                     fontWeight: 500,
                     color: todo.done ? "#C0C0C0" : "#2D2D2D",
                     textDecoration: todo.done ? "line-through" : "none",
                     transition: "all 0.2s",
+                    cursor: "pointer",
                   }}
                 >
                   {todo.text}
                 </span>
+                <button
+                  onClick={() => deleteTodo(todo.id)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    color: "#DDD",
+                    fontSize: 16,
+                    padding: "0 2px",
+                    lineHeight: 1,
+                    transition: "color 0.2s",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#F87171")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#DDD")}
+                  aria-label="Delete"
+                >
+                  ×
+                </button>
               </div>
             ))}
+            {/* Add todo input */}
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 4 }}>
+              <div style={{ width: 26, height: 26, flexShrink: 0 }} />
+              <input
+                value={newTodo}
+                onChange={(e) => setNewTodo(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && addTodo()}
+                placeholder="Add a task…"
+                style={{
+                  flex: 1,
+                  border: "none",
+                  borderBottom: `1.5px solid ${PEACH_SOFT}`,
+                  outline: "none",
+                  background: "transparent",
+                  fontSize: 14,
+                  color: "#2D2D2D",
+                  fontFamily: FONT_BODY,
+                  padding: "3px 0",
+                }}
+              />
+              {newTodo.trim() && (
+                <button
+                  onClick={addTodo}
+                  style={{
+                    background: PEACH,
+                    border: "none",
+                    borderRadius: 99,
+                    color: "white",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    padding: "4px 10px",
+                    cursor: "pointer",
+                    fontFamily: FONT_BODY,
+                  }}
+                >
+                  Add
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
