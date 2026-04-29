@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { TAO, BUDDHIST, AFFIRMATIONS, seededRandom } from "./_lib/content";
 
 const PEACH = "#FF8C6B";
@@ -15,7 +16,6 @@ const PAGE_BG = "#FFF8F5";
 
 const FONT_DISPLAY = "var(--font-righteous), sans-serif";
 const FONT_BODY = "var(--font-jakarta), sans-serif";
-
 
 function Pill({
   children,
@@ -108,7 +108,10 @@ export default function MorningPage() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
   const [visible, setVisible] = useState(false);
-  const [weather, setWeather] = useState<{ summary: string; emoji: string } | null>(null);
+  const [weather, setWeather] = useState<{
+    summary: string;
+    emoji: string;
+  } | null>(null);
 
   useEffect(() => {
     setTimeout(() => setVisible(true), 80);
@@ -375,7 +378,10 @@ export default function MorningPage() {
                   gap: 14,
                 }}
               >
-                <div onClick={() => toggleTodo(todo)} style={{ cursor: "pointer" }}>
+                <div
+                  onClick={() => toggleTodo(todo)}
+                  style={{ cursor: "pointer" }}
+                >
                   <CheckIcon checked={todo.done} />
                 </div>
                 <span
@@ -404,7 +410,9 @@ export default function MorningPage() {
                     lineHeight: 1,
                     transition: "color 0.2s",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#F87171")}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.color = "#F87171")
+                  }
                   onMouseLeave={(e) => (e.currentTarget.style.color = "#DDD")}
                   aria-label="Delete"
                 >
@@ -413,7 +421,14 @@ export default function MorningPage() {
               </div>
             ))}
             {/* Add todo input */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 4 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                marginTop: 4,
+              }}
+            >
               <div style={{ width: 26, height: 26, flexShrink: 0 }} />
               <input
                 value={newTodo}
@@ -624,6 +639,28 @@ export default function MorningPage() {
             light-years away.
           </div>
         </div>
+      </div>
+
+      {/* TONIGHT LINK */}
+      <div
+        style={{ ...fade(0.9), padding: "8px 26px 48px", textAlign: "center" }}
+      >
+        <Link
+          href="/tonight"
+          style={{
+            display: "inline-block",
+            color: PEACH,
+            fontSize: 14,
+            fontWeight: 600,
+            letterSpacing: "0.05em",
+            textDecoration: "none",
+            padding: "10px 24px",
+            borderRadius: 99,
+            border: `1.5px solid ${PEACH_SOFT}`,
+          }}
+        >
+          plan for tomorrow →
+        </Link>
       </div>
     </div>
   );
