@@ -10,6 +10,7 @@ curl -v "https://api.music.apple.com/v1/catalog/us/playlists/<playlist_id>?inclu
   -H "Authorization: Bearer <Bearer token>" \
   -H "Origin: https://music.apple.com"
 
+get the token from loggin in at: https://beta.music.apple.com/
 
 ## Environment Variables
 

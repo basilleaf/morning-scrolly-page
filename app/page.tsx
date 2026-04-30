@@ -108,12 +108,23 @@ export default function MorningPage() {
   type Todo = { id: number; text: string; done: boolean };
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
+  type Artwork = {
+    id: number;
+    title: string;
+    artist: string | null;
+    date: string | null;
+    medium: string | null;
+    description: string | null;
+    imageUrl: string | null;
+    artworkUrl: string;
+  };
   const [visible, setVisible] = useState(false);
   const [weather, setWeather] = useState<{
     summary: string;
     emoji: string;
   } | null>(null);
   const [taoReflection, setTaoReflection] = useState<string | null>(null);
+  const [artwork, setArtwork] = useState<Artwork | null>(null);
 
   useEffect(() => {
     setTimeout(() => setVisible(true), 80);
@@ -128,6 +139,10 @@ export default function MorningPage() {
     fetch(`/api/tao-reflection?verse=${tao.verse}`)
       .then((r) => r.json())
       .then((d) => setTaoReflection(d.reflection ?? null))
+      .catch(() => {});
+    fetch("/api/artwork")
+      .then((r) => r.json())
+      .then((d) => !d.error && setArtwork(d))
       .catch(() => {});
   }, []);
 
@@ -489,47 +504,101 @@ export default function MorningPage() {
         </div>
       </div>
 
-      {/* DAILY IMAGE */}
+      {/* ART OF THE DAY */}
       <div style={{ ...fade(0.4), padding: "8px 26px 0" }}>
-        <div
-          style={{
-            width: "100%",
-            aspectRatio: "16/9",
-            borderRadius: 20,
-            background: `linear-gradient(135deg, ${LAVENDER}, ${PEACH_SOFT}, ${BUTTER})`,
-            display: "flex",
-            alignItems: "flex-end",
-            padding: "14px 16px",
-            overflow: "hidden",
-            position: "relative",
-          }}
+        <a
+          href={artwork?.artworkUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: "none", display: "block" }}
         >
           <div
             style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(circle at 25% 35%, rgba(255,255,255,0.35) 0%, transparent 55%)",
+              borderRadius: 20,
+              overflow: "hidden",
+              background: "white",
+              boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
             }}
-          />
-          <div style={{ position: "relative" }}>
-            <div
-              style={{
-                fontSize: 10,
-                color: "rgba(60,40,80,0.55)",
-                fontWeight: 600,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                marginBottom: 2,
-              }}
-            >
-              The Met Open Access
-            </div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#3C2850" }}>
-              Starry Night Study, 1889
+          >
+            {artwork?.imageUrl ? (
+              <img
+                src={artwork.imageUrl}
+                alt={artwork.title}
+                style={{
+                  width: "100%",
+                  display: "block",
+                  maxHeight: 320,
+                  objectFit: "cover",
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  height: 200,
+                  background: `linear-gradient(135deg, ${LAVENDER}, ${PEACH_SOFT}, ${BUTTER})`,
+                }}
+              />
+            )}
+            <div style={{ padding: "14px 16px 16px" }}>
+              <div
+                style={{
+                  fontSize: 10,
+                  color: PEACH,
+                  fontWeight: 700,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  marginBottom: 5,
+                }}
+              >
+                Art of the Day · Art Institute of Chicago
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  fontWeight: 700,
+                  color: "#2D2D2D",
+                  marginBottom: 2,
+                }}
+              >
+                {artwork?.title ?? "Loading…"}
+              </div>
+              {artwork?.artist && (
+                <div style={{ fontSize: 12, color: "#999", marginBottom: 2 }}>
+                  {artwork.artist}
+                  {artwork.date ? ` · ${artwork.date}` : ""}
+                </div>
+              )}
+              {artwork?.medium && (
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: "#BBB",
+                    marginBottom: artwork.description ? 10 : 0,
+                  }}
+                >
+                  {artwork.medium}
+                </div>
+              )}
+              {artwork?.description && (
+                <div
+                  style={{
+                    fontSize: 13,
+                    lineHeight: 1.6,
+                    color: "#666",
+                    marginTop: 8,
+                    display: "-webkit-box",
+                    WebkitLineClamp: 4,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
+                >
+                  {artwork.description}
+                </div>
+              )}
             </div>
           </div>
-        </div>
+        </a>
       </div>
 
       {/* TAO */}
