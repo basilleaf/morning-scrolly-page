@@ -16,7 +16,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "Good morning",
-  description: "Morning ritual page",
+  description: "Personal morning scrolling ritual page",
 };
 
 export default function RootLayout({
