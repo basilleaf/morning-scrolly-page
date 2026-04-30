@@ -137,6 +137,11 @@ export default function MorningPage() {
     summary: string;
     emoji: string;
   } | null>(null);
+  const [aqi, setAqi] = useState<{
+    aqi: number;
+    category: string;
+    emoji: string;
+  } | null>(null);
   const [taoReflection, setTaoReflection] = useState<string | null>(null);
   const [artwork, setArtwork] = useState<Artwork | null>(null);
   const [apod, setApod] = useState<Apod | null>(null);
@@ -146,6 +151,10 @@ export default function MorningPage() {
     fetch("/api/weather")
       .then((r) => r.json())
       .then(setWeather)
+      .catch(() => {});
+    fetch("/api/air-quality")
+      .then((r) => r.json())
+      .then((d) => !d.error && setAqi(d))
       .catch(() => {});
     fetch("/api/todos")
       .then((r) => r.json())
@@ -271,23 +280,44 @@ export default function MorningPage() {
           {monthDay}
         </div>
 
-        {/* Weather bubble */}
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            background: "white",
-            borderRadius: 99,
-            padding: "8px 16px",
-            fontSize: 13,
-            color: "#666",
-            fontWeight: 500,
-            boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-          }}
-        >
-          <span>{weather?.emoji ?? "🌡️"}</span>
-          <span>{weather?.summary ?? "Loading…"}</span>
+        {/* Weather + AQI bubbles */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "white",
+              borderRadius: 99,
+              padding: "8px 16px",
+              fontSize: 13,
+              color: "#666",
+              fontWeight: 500,
+              boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+            }}
+          >
+            <span>{weather?.emoji ?? "🌡️"}</span>
+            <span>{weather?.summary ?? "Loading…"}</span>
+          </div>
+          {aqi && (
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "white",
+                borderRadius: 99,
+                padding: "8px 16px",
+                fontSize: 13,
+                color: "#666",
+                fontWeight: 500,
+                boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+              }}
+            >
+              <span>{aqi.emoji}</span>
+              <span>AQI {aqi.aqi} · {aqi.category}</span>
+            </div>
+          )}
         </div>
       </div>
 
