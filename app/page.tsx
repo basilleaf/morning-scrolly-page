@@ -11,6 +11,7 @@ import {
   seededRandom,
 } from "./_lib/content";
 import { quotes } from "./_lib/quotes";
+import tnhQuotes from "./_lib/tnh-quotes.json";
 
 const PEACH = "#FF8C6B";
 const PEACH_SOFT = "#FFD4C2";
@@ -115,6 +116,7 @@ export default function MorningPage() {
   const affirmation = AFFIRMATIONS[Math.floor(rng() * AFFIRMATIONS.length)];
   const song = SONGS[Math.floor(rng() * SONGS.length)];
   const quote = quotes[Math.floor(rng() * quotes.length)];
+  const tnhQuote = tnhQuotes[Math.floor(rng() * tnhQuotes.length)];
 
   type Todo = { id: number; text: string; done: boolean };
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -798,6 +800,50 @@ export default function MorningPage() {
             </div>
           </a>
         )}
+      </div>
+
+      {/* THICH NHAT HANH */}
+      <div style={{ ...fade(0.45), padding: "16px 26px 0" }}>
+        <div
+          style={{
+            background: MINT_BG,
+            borderRadius: 20,
+            padding: "20px 22px",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: -6,
+              left: 14,
+              fontSize: 80,
+              lineHeight: 1,
+              color: MINT,
+              fontFamily: "Georgia, serif",
+              pointerEvents: "none",
+              userSelect: "none",
+            }}
+          >
+            &ldquo;
+          </div>
+          <SectionLabel color="#3D7A5E" bg={MINT + "66"}>
+            Thich Nhat Hanh
+          </SectionLabel>
+          <div
+            style={{
+              fontSize: 17,
+              lineHeight: 1.65,
+              color: "#2A4D3D",
+              fontWeight: 400,
+              fontStyle: "italic",
+              paddingLeft: 4,
+            }}
+          >
+            {tnhQuote}
+          </div>
+        </div>
       </div>
 
       {/* ART OF THE DAY */}
