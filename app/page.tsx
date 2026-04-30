@@ -3,7 +3,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import NewsDigest from "../components/NewsDigest";
-import { TAO, BUDDHIST, AFFIRMATIONS, SONGS, seededRandom } from "./_lib/content";
+import {
+  TAO,
+  BUDDHIST,
+  AFFIRMATIONS,
+  SONGS,
+  seededRandom,
+} from "./_lib/content";
 import { quotes } from "./_lib/quotes";
 
 const PEACH = "#FF8C6B";
@@ -146,7 +152,13 @@ export default function MorningPage() {
   const [taoReflection, setTaoReflection] = useState<string | null>(null);
   const [artwork, setArtwork] = useState<Artwork | null>(null);
   const [apod, setApod] = useState<Apod | null>(null);
-  type GoodNewsStory = { title: string; link: string; description: string; imageUrl: string | null; pubDate: string };
+  type GoodNewsStory = {
+    title: string;
+    link: string;
+    description: string;
+    imageUrl: string | null;
+    pubDate: string;
+  };
   const [goodNews, setGoodNews] = useState<GoodNewsStory[]>([]);
 
   useEffect(() => {
@@ -322,7 +334,9 @@ export default function MorningPage() {
               }}
             >
               <span>{aqi.emoji}</span>
-              <span>AQI {aqi.aqi} · {aqi.category}</span>
+              <span>
+                AQI {aqi.aqi} · {aqi.category}
+              </span>
             </div>
           )}
         </div>
@@ -573,7 +587,12 @@ export default function MorningPage() {
                   <img
                     src={apod.thumbnail_url}
                     alt={apod.title ?? "Astronomy Picture of the Day"}
-                    style={{ width: "100%", display: "block", maxHeight: 320, objectFit: "cover" }}
+                    style={{
+                      width: "100%",
+                      display: "block",
+                      maxHeight: 320,
+                      objectFit: "cover",
+                    }}
                   />
                   <div
                     style={{
@@ -596,7 +615,12 @@ export default function MorningPage() {
                         justifyContent: "center",
                       }}
                     >
-                      <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
+                      <svg
+                        width="16"
+                        height="18"
+                        viewBox="0 0 16 18"
+                        fill="none"
+                      >
                         <path d="M1 1L15 9L1 17V1Z" fill="#5B4A9B" />
                       </svg>
                     </div>
@@ -607,7 +631,8 @@ export default function MorningPage() {
                   style={{
                     width: "100%",
                     aspectRatio: "4/3",
-                    background: "linear-gradient(135deg, #1a0a2e, #2d1b5e, #4a2d8a)",
+                    background:
+                      "linear-gradient(135deg, #1a0a2e, #2d1b5e, #4a2d8a)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -618,19 +643,47 @@ export default function MorningPage() {
                 </div>
               )}
               <div style={{ padding: "14px 16px 16px" }}>
-                <div style={{ fontSize: 10, color: "#9B8FC0", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 5 }}>
+                <div
+                  style={{
+                    fontSize: 10,
+                    color: "#9B8FC0",
+                    fontWeight: 700,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    marginBottom: 5,
+                  }}
+                >
                   Astronomy Picture of the Day · NASA
                 </div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: "#2D2D2D", marginBottom: 8 }}>
+                <div
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 700,
+                    color: "#2D2D2D",
+                    marginBottom: 8,
+                  }}
+                >
                   {apod.title ?? "Loading…"}
                 </div>
                 {apod.explanation && (
-                  <div style={{ fontSize: 13, lineHeight: 1.6, color: "#666", display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      lineHeight: 1.6,
+                      color: "#666",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 4,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
                     {apod.explanation}
                   </div>
                 )}
                 {apod.copyright && (
-                  <div style={{ fontSize: 11, color: "#BBB", marginTop: 8 }}>© {apod.copyright.trim()}</div>
+                  <div style={{ fontSize: 11, color: "#BBB", marginTop: 8 }}>
+                    © {apod.copyright.trim()}
+                  </div>
                 )}
               </div>
             </div>
@@ -654,14 +707,20 @@ export default function MorningPage() {
                 <img
                   src={apod.url}
                   alt={apod.title ?? "Astronomy Picture of the Day"}
-                  style={{ width: "100%", display: "block", maxHeight: 320, objectFit: "cover" }}
+                  style={{
+                    width: "100%",
+                    display: "block",
+                    maxHeight: 320,
+                    objectFit: "cover",
+                  }}
                 />
               ) : (
                 <div
                   style={{
                     width: "100%",
                     aspectRatio: "4/3",
-                    background: "linear-gradient(135deg, #1a0a2e, #2d1b5e, #4a2d8a)",
+                    background:
+                      "linear-gradient(135deg, #1a0a2e, #2d1b5e, #4a2d8a)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -672,19 +731,47 @@ export default function MorningPage() {
                 </div>
               )}
               <div style={{ padding: "14px 16px 16px" }}>
-                <div style={{ fontSize: 10, color: "#9B8FC0", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 5 }}>
+                <div
+                  style={{
+                    fontSize: 10,
+                    color: "#9B8FC0",
+                    fontWeight: 700,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    marginBottom: 5,
+                  }}
+                >
                   Astronomy Picture of the Day · NASA
                 </div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: "#2D2D2D", marginBottom: 8 }}>
+                <div
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 700,
+                    color: "#2D2D2D",
+                    marginBottom: 8,
+                  }}
+                >
                   {apod?.title ?? "Loading…"}
                 </div>
                 {apod?.explanation && (
-                  <div style={{ fontSize: 13, lineHeight: 1.6, color: "#666", display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      lineHeight: 1.6,
+                      color: "#666",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 4,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
                     {apod.explanation}
                   </div>
                 )}
                 {apod?.copyright && (
-                  <div style={{ fontSize: 11, color: "#BBB", marginTop: 8 }}>© {apod.copyright.trim()}</div>
+                  <div style={{ fontSize: 11, color: "#BBB", marginTop: 8 }}>
+                    © {apod.copyright.trim()}
+                  </div>
                 )}
               </div>
             </div>
@@ -969,11 +1056,40 @@ export default function MorningPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {goodNews.length === 0
               ? [0, 1, 2, 3, 4].map((i) => (
-                  <div key={i} style={{ borderRadius: 12, overflow: "hidden", background: "white", marginBottom: i < 4 ? 14 : 0 }}>
+                  <div
+                    key={i}
+                    style={{
+                      borderRadius: 12,
+                      overflow: "hidden",
+                      background: "white",
+                      marginBottom: i < 4 ? 14 : 0,
+                    }}
+                  >
                     <div style={{ height: 160, background: MINT + "44" }} />
-                    <div style={{ padding: "10px 12px 12px", display: "flex", flexDirection: "column", gap: 5 }}>
-                      <div style={{ height: 13, borderRadius: 6, background: MINT + "55", width: "85%" }} />
-                      <div style={{ height: 11, borderRadius: 6, background: MINT + "33", width: "60%" }} />
+                    <div
+                      style={{
+                        padding: "10px 12px 12px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 5,
+                      }}
+                    >
+                      <div
+                        style={{
+                          height: 13,
+                          borderRadius: 6,
+                          background: MINT + "55",
+                          width: "85%",
+                        }}
+                      />
+                      <div
+                        style={{
+                          height: 11,
+                          borderRadius: 6,
+                          background: MINT + "33",
+                          width: "60%",
+                        }}
+                      />
                     </div>
                   </div>
                 ))
@@ -1043,34 +1159,18 @@ export default function MorningPage() {
               href="https://www.goodnewsnetwork.org/"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ fontSize: 11, color: "#7ABBA0", fontWeight: 600, textDecoration: "none", letterSpacing: "0.05em" }}
+              style={{
+                fontSize: 11,
+                color: "#7ABBA0",
+                fontWeight: 600,
+                textDecoration: "none",
+                letterSpacing: "0.05em",
+              }}
             >
               Good News Network →
             </a>
           </div>
         </div>
-      </div>
-
-      {/* TONIGHT LINK */}
-      <div
-        style={{ ...fade(0.95), padding: "8px 26px 48px", textAlign: "center" }}
-      >
-        <Link
-          href="/tonight"
-          style={{
-            display: "inline-block",
-            color: PEACH,
-            fontSize: 14,
-            fontWeight: 600,
-            letterSpacing: "0.05em",
-            textDecoration: "none",
-            padding: "10px 24px",
-            borderRadius: 99,
-            border: `1.5px solid ${PEACH_SOFT}`,
-          }}
-        >
-          plan for tomorrow →
-        </Link>
       </div>
     </div>
   );
