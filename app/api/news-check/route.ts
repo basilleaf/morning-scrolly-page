@@ -7,6 +7,11 @@ export async function POST() {
     const cached = await getNewsCache(60);
     if (cached) return NextResponse.json(cached);
 
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0];
+    const today = new Date().toISOString().split("T")[0];
+
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -19,20 +24,24 @@ export async function POST() {
         model: "claude-sonnet-4-6",
         max_tokens: 1000,
         tools: [{ type: "web_search_20250305", name: "web_search" }],
-        system: `You are a concise local news filter. Search for breaking news and emergencies in the given location from the last 24 hours. Also check if Donald Trump has died or if a huge national event has occurred.
+        system: `You are a concise local news filter. Today is ${today}.
 
-Respond in this exact JSON format only, no other text:
-{
-  "status": "all_clear" or "heads_up",
-  "summary": "one sentence — either 'Nothing notable.' or a brief summary",
-  "items": [] or [{"headline": "short headline", "severity": "low" or "medium" or "high"}]
-}
+          Search for breaking news and emergencies in the given location from ${yesterday} to ${today} only. Ignore anything older than that.
 
-Only flag: fires, floods, major accidents, road closures, power outages, major crime, significant weather, deaths of major public figures. Ignore: minor crime, politics, sports, celebrity news, real estate.`,
+          For national news: ONLY flag if Donald Trump has actually died. Do NOT flag assassination attempts, health scares, or anything else — only confirmed death. If he has not died, do not mention him at all.
+
+          Respond in this exact JSON format only, no other text:
+          {
+            "status": "all_clear" or "heads_up",
+            "summary": "one sentence — either 'Nothing notable.' or a brief summary",
+            "items": [] or [{"headline": "short headline", "severity": "low" or "medium" or "high"}]
+          }
+
+          Only flag: fires, floods, major accidents, road closures, power outages, significant weather, confirmed deaths of major public figures. Ignore everything else.`,
         messages: [
           {
             role: "user",
-            content: "Check for anything I need to know about in 94546 (Castro Valley, CA) right now.",
+            content: `Check for anything I need to know about in 94546 (Castro Valley, CA) right now. Today is ${today}, only report news from the last 24 hours.`,
           },
         ],
       }),
@@ -41,10 +50,13 @@ Only flag: fires, floods, major accidents, road closures, power outages, major c
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Anthropic API error:", data?.error?.message ?? JSON.stringify(data));
+      console.error(
+        "Anthropic API error:",
+        data?.error?.message ?? JSON.stringify(data),
+      );
       return NextResponse.json(
         { status: "all_clear", summary: "Could not load briefing.", items: [] },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -61,7 +73,7 @@ Only flag: fires, floods, major accidents, road closures, power outages, major c
     console.error("news-check error:", err);
     return NextResponse.json(
       { status: "all_clear", summary: "Could not load briefing.", items: [] },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
