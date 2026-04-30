@@ -704,7 +704,7 @@ export default function MorningPage() {
                 {apod.explanation && (
                   <div
                     style={{
-                      fontSize: 13,
+                      fontSize: 15,
                       lineHeight: 1.6,
                       color: "#666",
                       display: "-webkit-box",
@@ -717,7 +717,7 @@ export default function MorningPage() {
                   </div>
                 )}
                 {apod.copyright && (
-                  <div style={{ fontSize: 11, color: "#BBB", marginTop: 8 }}>
+                  <div style={{ fontSize: 12, color: "#BBB", marginTop: 8 }}>
                     © {apod.copyright.trim()}
                   </div>
                 )}
@@ -792,7 +792,7 @@ export default function MorningPage() {
                 {apod?.explanation && (
                   <div
                     style={{
-                      fontSize: 13,
+                      fontSize: 15,
                       lineHeight: 1.6,
                       color: "#666",
                       display: "-webkit-box",
@@ -805,7 +805,7 @@ export default function MorningPage() {
                   </div>
                 )}
                 {apod?.copyright && (
-                  <div style={{ fontSize: 11, color: "#BBB", marginTop: 8 }}>
+                  <div style={{ fontSize: 12, color: "#BBB", marginTop: 8 }}>
                     © {apod.copyright.trim()}
                   </div>
                 )}
@@ -938,7 +938,7 @@ export default function MorningPage() {
               {(artworkStory || artwork?.description) && (
                 <div
                   style={{
-                    fontSize: 13,
+                    fontSize: 15,
                     lineHeight: 1.65,
                     color: "#666",
                     marginTop: 8,
@@ -1213,7 +1213,7 @@ export default function MorningPage() {
                       <div style={{ padding: "10px 12px 12px" }}>
                         <div
                           style={{
-                            fontSize: 13,
+                            fontSize: 15,
                             fontWeight: 600,
                             color: "#2A4D3D",
                             lineHeight: 1.45,
@@ -1225,7 +1225,7 @@ export default function MorningPage() {
                         {story.description && (
                           <div
                             style={{
-                              fontSize: 11,
+                              fontSize: 13,
                               color: "#5A8070",
                               lineHeight: 1.55,
                               display: "-webkit-box",
