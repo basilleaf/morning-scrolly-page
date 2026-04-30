@@ -155,6 +155,7 @@ export default function MorningPage() {
   } | null>(null);
   const [taoReflection, setTaoReflection] = useState<string | null>(null);
   const [artwork, setArtwork] = useState<Artwork | null>(null);
+  const [artworkStory, setArtworkStory] = useState<string | null>(null);
   const [apod, setApod] = useState<Apod | null>(null);
   type GoodNewsStory = {
     title: string;
@@ -196,6 +197,18 @@ export default function MorningPage() {
       .then((d) => d.stories && setGoodNews(d.stories))
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (!artwork) return;
+    const params = new URLSearchParams({ id: String(artwork.id), title: artwork.title });
+    if (artwork.artist) params.set("artist", artwork.artist);
+    if (artwork.date) params.set("date", artwork.date);
+    if (artwork.medium) params.set("medium", artwork.medium);
+    fetch(`/api/artwork-story?${params}`)
+      .then((r) => r.json())
+      .then((d) => d.story && setArtworkStory(d.story))
+      .catch(() => {});
+  }, [artwork]);
 
   const toggleTodo = async (todo: Todo) => {
     const next = !todo.done;
@@ -916,26 +929,34 @@ export default function MorningPage() {
                   style={{
                     fontSize: 11,
                     color: "#BBB",
-                    marginBottom: artwork.description ? 10 : 0,
+                    marginBottom: artworkStory || artwork.description ? 10 : 0,
                   }}
                 >
                   {artwork.medium}
                 </div>
               )}
-              {artwork?.description && (
+              {(artworkStory || artwork?.description) && (
                 <div
                   style={{
                     fontSize: 13,
-                    lineHeight: 1.6,
+                    lineHeight: 1.65,
                     color: "#666",
                     marginTop: 8,
-                    display: "-webkit-box",
-                    WebkitLineClamp: 4,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
                   }}
                 >
-                  {artwork.description}
+                  {artworkStory ?? artwork?.description}
+                </div>
+              )}
+              {artwork && !artworkStory && !artwork.description && (
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: "#CCC",
+                    marginTop: 8,
+                    fontStyle: "italic",
+                  }}
+                >
+                  Loading story…
                 </div>
               )}
             </div>

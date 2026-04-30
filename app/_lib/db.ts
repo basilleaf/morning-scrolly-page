@@ -61,6 +61,28 @@ export async function saveNewsCache(result: unknown) {
   `;
 }
 
+export async function initArtworkStories() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS artwork_stories (
+      artwork_id  INT  PRIMARY KEY,
+      story       TEXT NOT NULL,
+      created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `;
+}
+
+export async function getArtworkStory(artworkId: number): Promise<string | null> {
+  const rows = await sql`SELECT story FROM artwork_stories WHERE artwork_id = ${artworkId}`;
+  return rows[0]?.story ?? null;
+}
+
+export async function saveArtworkStory(artworkId: number, story: string) {
+  await sql`
+    INSERT INTO artwork_stories (artwork_id, story) VALUES (${artworkId}, ${story})
+    ON CONFLICT (artwork_id) DO NOTHING
+  `;
+}
+
 export type TodoRow = { id: number; text: string; done: boolean };
 
 export async function getTodos(): Promise<TodoRow[]> {
