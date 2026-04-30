@@ -7,6 +7,33 @@ import {
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+function stripNarration(text: string): string {
+  // Remove everything up to and including a "---" delimiter if present
+  const delimIdx = text.indexOf("---");
+  if (delimIdx !== -1) {
+    text = text.slice(delimIdx + 3).trim();
+  }
+
+  // Strip leading sentences that are search/process narration
+  const narrationPrefixes = [
+    /^I'?d like to search[^.]*\.\s*/i,
+    /^Based on (the )?search results?[^.]*\.\s*/i,
+    /^Let me (search|write|look)[^.]*\.\s*/i,
+    /^I (now have|found|searched)[^.]*\.\s*/i,
+    /^Searching[^.]*\.\s*/i,
+  ];
+  let prev: string;
+  do {
+    prev = text;
+    for (const re of narrationPrefixes) {
+      text = text.replace(re, "");
+    }
+    text = text.trim();
+  } while (text !== prev);
+
+  return text;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const id = parseInt(searchParams.get("id") ?? "0", 10);
@@ -35,7 +62,7 @@ export async function GET(request: Request) {
     .filter(Boolean)
     .join("\n");
 
-  const prompt = `${meta}\n\nWrite 2–3 sentences about this artwork for a morning reader. Draw on the artist's life, the historical moment, the making of the piece, or a surprising detail. Be vivid and warm — no dry museum-card framing, no opener like "This painting…". Just the living story.`;
+  const prompt = `${meta}\n\nWrite 2–3 sentences about this artwork for a morning reader. Draw on the artist's life, the historical moment, the making of the piece, or a surprising detail. Be vivid and warm — no dry museum-card framing, no opener like "This painting…".\n\nRespond with ONLY the story text. No preamble, no "Let me search…", no "Based on the results…", no separators. Output the story and nothing else.`;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const webSearchTool: any = {
@@ -60,11 +87,12 @@ export async function GET(request: Request) {
     });
 
     if (response.stop_reason === "end_turn") {
-      story = (response.content as Anthropic.ContentBlock[])
+      const raw = (response.content as Anthropic.ContentBlock[])
         .filter((b) => b.type === "text")
         .map((b) => (b as Anthropic.TextBlock).text)
         .join("")
         .trim();
+      story = stripNarration(raw);
       break;
     }
 
