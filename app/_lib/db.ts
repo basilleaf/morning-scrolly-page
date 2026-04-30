@@ -35,6 +35,32 @@ export async function saveTaoReflection(verse: number, reflection: string) {
   `;
 }
 
+export async function initNewsCache() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS news_cache (
+      id         INT PRIMARY KEY DEFAULT 1,
+      result     JSONB NOT NULL,
+      fetched_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `;
+}
+
+export async function getNewsCache(maxAgeMinutes = 60) {
+  const rows = await sql`
+    SELECT result FROM news_cache
+    WHERE id = 1
+      AND fetched_at > now() - (${maxAgeMinutes} || ' minutes')::interval
+  `;
+  return rows[0]?.result ?? null;
+}
+
+export async function saveNewsCache(result: unknown) {
+  await sql`
+    INSERT INTO news_cache (id, result, fetched_at) VALUES (1, ${JSON.stringify(result)}, now())
+    ON CONFLICT (id) DO UPDATE SET result = EXCLUDED.result, fetched_at = EXCLUDED.fetched_at
+  `;
+}
+
 export type TodoRow = { id: number; text: string; done: boolean };
 
 export async function getTodos(): Promise<TodoRow[]> {

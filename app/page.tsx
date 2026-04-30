@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import NewsDigest from "../components/NewsDigest";
 import { TAO, BUDDHIST, AFFIRMATIONS, SONGS, seededRandom } from "./_lib/content";
 import { quotes } from "./_lib/quotes";
 
@@ -420,16 +421,7 @@ export default function MorningPage() {
           <SectionLabel color="#E07A5F" bg="#FFE8E0">
             Morning brief
           </SectionLabel>
-          <div
-            style={{
-              fontSize: 15,
-              lineHeight: 1.75,
-              color: "#555",
-              fontWeight: 400,
-            }}
-          >
-            Nothing urgent in the news.
-          </div>
+          <NewsDigest />
         </div>
       </div>
 
