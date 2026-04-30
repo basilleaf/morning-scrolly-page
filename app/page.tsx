@@ -118,6 +118,16 @@ export default function MorningPage() {
     imageUrl: string | null;
     artworkUrl: string;
   };
+  type Apod = {
+    title: string | null;
+    url: string | null;
+    hdurl: string | null;
+    explanation: string | null;
+    media_type: string | null;
+    thumbnail_url: string | null;
+    copyright: string | null;
+    date: string | null;
+  };
   const [visible, setVisible] = useState(false);
   const [weather, setWeather] = useState<{
     summary: string;
@@ -125,6 +135,7 @@ export default function MorningPage() {
   } | null>(null);
   const [taoReflection, setTaoReflection] = useState<string | null>(null);
   const [artwork, setArtwork] = useState<Artwork | null>(null);
+  const [apod, setApod] = useState<Apod | null>(null);
 
   useEffect(() => {
     setTimeout(() => setVisible(true), 80);
@@ -143,6 +154,10 @@ export default function MorningPage() {
     fetch("/api/artwork")
       .then((r) => r.json())
       .then((d) => !d.error && setArtwork(d))
+      .catch(() => {});
+    fetch("/api/apod")
+      .then((r) => r.json())
+      .then((d) => !d.error && setApod(d))
       .catch(() => {});
   }, []);
 
@@ -504,8 +519,149 @@ export default function MorningPage() {
         </div>
       </div>
 
-      {/* ART OF THE DAY */}
+      {/* APOD */}
       <div style={{ ...fade(0.4), padding: "8px 26px 0" }}>
+        {apod?.media_type === "video" ? (
+          <a
+            href="https://apod.nasa.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: "none", display: "block" }}
+          >
+            <div
+              style={{
+                background: "#F0EEFF",
+                borderRadius: 20,
+                overflow: "hidden",
+                boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
+              }}
+            >
+              {apod.thumbnail_url ? (
+                <div style={{ position: "relative" }}>
+                  <img
+                    src={apod.thumbnail_url}
+                    alt={apod.title ?? "Astronomy Picture of the Day"}
+                    style={{ width: "100%", display: "block", maxHeight: 320, objectFit: "cover" }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: "rgba(0,0,0,0.25)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 52,
+                        height: 52,
+                        borderRadius: "50%",
+                        background: "rgba(255,255,255,0.9)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
+                        <path d="M1 1L15 9L1 17V1Z" fill="#5B4A9B" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    width: "100%",
+                    aspectRatio: "4/3",
+                    background: "linear-gradient(135deg, #1a0a2e, #2d1b5e, #4a2d8a)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 36,
+                  }}
+                >
+                  🌌
+                </div>
+              )}
+              <div style={{ padding: "14px 16px 16px" }}>
+                <div style={{ fontSize: 10, color: "#9B8FC0", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 5 }}>
+                  Astronomy Picture of the Day · NASA
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: "#2D2D2D", marginBottom: 8 }}>
+                  {apod.title ?? "Loading…"}
+                </div>
+                {apod.explanation && (
+                  <div style={{ fontSize: 13, lineHeight: 1.6, color: "#666", display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                    {apod.explanation}
+                  </div>
+                )}
+                {apod.copyright && (
+                  <div style={{ fontSize: 11, color: "#BBB", marginTop: 8 }}>© {apod.copyright.trim()}</div>
+                )}
+              </div>
+            </div>
+          </a>
+        ) : (
+          <a
+            href="https://apod.nasa.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: "none", display: "block" }}
+          >
+            <div
+              style={{
+                background: "#F0EEFF",
+                borderRadius: 20,
+                overflow: "hidden",
+                boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
+              }}
+            >
+              {apod?.url ? (
+                <img
+                  src={apod.url}
+                  alt={apod.title ?? "Astronomy Picture of the Day"}
+                  style={{ width: "100%", display: "block", maxHeight: 320, objectFit: "cover" }}
+                />
+              ) : (
+                <div
+                  style={{
+                    width: "100%",
+                    aspectRatio: "4/3",
+                    background: "linear-gradient(135deg, #1a0a2e, #2d1b5e, #4a2d8a)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 36,
+                  }}
+                >
+                  🌌
+                </div>
+              )}
+              <div style={{ padding: "14px 16px 16px" }}>
+                <div style={{ fontSize: 10, color: "#9B8FC0", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 5 }}>
+                  Astronomy Picture of the Day · NASA
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: "#2D2D2D", marginBottom: 8 }}>
+                  {apod?.title ?? "Loading…"}
+                </div>
+                {apod?.explanation && (
+                  <div style={{ fontSize: 13, lineHeight: 1.6, color: "#666", display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                    {apod.explanation}
+                  </div>
+                )}
+                {apod?.copyright && (
+                  <div style={{ fontSize: 11, color: "#BBB", marginTop: 8 }}>© {apod.copyright.trim()}</div>
+                )}
+              </div>
+            </div>
+          </a>
+        )}
+      </div>
+
+      {/* ART OF THE DAY */}
+      <div style={{ ...fade(0.5), padding: "16px 26px 0" }}>
         <a
           href={artwork?.artworkUrl}
           target="_blank"
@@ -602,7 +758,7 @@ export default function MorningPage() {
       </div>
 
       {/* TAO */}
-      <div style={{ ...fade(0.5), padding: "20px 26px 0" }}>
+      <div style={{ ...fade(0.6), padding: "20px 26px 0" }}>
         <div
           style={{
             background: LAVENDER_BG,
@@ -660,7 +816,7 @@ export default function MorningPage() {
       </div>
 
       {/* BUDDHIST */}
-      <div style={{ ...fade(0.6), padding: "16px 26px 0" }}>
+      <div style={{ ...fade(0.7), padding: "16px 26px 0" }}>
         <div
           style={{
             background: MINT_BG,
@@ -685,7 +841,7 @@ export default function MorningPage() {
       </div>
 
       {/* AFFIRMATION */}
-      <div style={{ ...fade(0.7), padding: "16px 26px 0" }}>
+      <div style={{ ...fade(0.8), padding: "16px 26px 0" }}>
         <div
           style={{
             background: BUTTER_BG,
@@ -706,47 +862,6 @@ export default function MorningPage() {
             }}
           >
             {affirmation}
-          </div>
-        </div>
-      </div>
-
-      {/* APOD */}
-      <div style={{ ...fade(0.8), padding: "16px 26px 40px" }}>
-        <div
-          style={{
-            background: "#F0EEFF",
-            borderRadius: 20,
-            padding: "20px 22px",
-          }}
-        >
-          <SectionLabel color="#5B4A9B" bg={LAVENDER + "55"}>
-            Astronomy · NASA
-          </SectionLabel>
-          <div
-            style={{
-              width: "100%",
-              aspectRatio: "4/3",
-              borderRadius: 14,
-              background: "linear-gradient(135deg, #1a0a2e, #2d1b5e, #4a2d8a)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 36,
-              marginBottom: 12,
-            }}
-          >
-            🌌
-          </div>
-          <div
-            style={{
-              fontSize: 13,
-              color: "#5B4A9B",
-              lineHeight: 1.6,
-              fontWeight: 400,
-            }}
-          >
-            The Pillars of Creation — Eagle Nebula, M16. Stellar nurseries 6,500
-            light-years away.
           </div>
         </div>
       </div>
