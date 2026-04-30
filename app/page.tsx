@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { TAO, BUDDHIST, AFFIRMATIONS, SONGS, seededRandom } from "./_lib/content";
+import { quotes } from "./_lib/quotes";
 
 const PEACH = "#FF8C6B";
 const PEACH_SOFT = "#FFD4C2";
@@ -12,6 +13,8 @@ const MINT = "#A8E6CF";
 const MINT_BG = "#EDFAF4";
 const BUTTER = "#FFE8A3";
 const BUTTER_BG = "#FFFBEE";
+const ROSE = "#F4A0A0";
+const ROSE_BG = "#FFF0F0";
 const PAGE_BG = "#FFF8F5";
 
 const FONT_DISPLAY = "var(--font-righteous), sans-serif";
@@ -104,6 +107,7 @@ export default function MorningPage() {
   const buddhist = BUDDHIST[Math.floor(rng() * BUDDHIST.length)];
   const affirmation = AFFIRMATIONS[Math.floor(rng() * AFFIRMATIONS.length)];
   const song = SONGS[Math.floor(rng() * SONGS.length)];
+  const quote = quotes[Math.floor(rng() * quotes.length)];
 
   type Todo = { id: number; text: string; done: boolean };
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -866,9 +870,64 @@ export default function MorningPage() {
         </div>
       </div>
 
+      {/* QUOTE */}
+      <div style={{ ...fade(0.85), padding: "16px 26px 0" }}>
+        <div
+          style={{
+            background: ROSE_BG,
+            borderRadius: 20,
+            padding: "20px 22px",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: -6,
+              left: 14,
+              fontSize: 80,
+              lineHeight: 1,
+              color: ROSE,
+              fontFamily: "Georgia, serif",
+              pointerEvents: "none",
+              userSelect: "none",
+            }}
+          >
+            &ldquo;
+          </div>
+          <SectionLabel color="#A05050" bg={ROSE + "55"}>
+            Quote
+          </SectionLabel>
+          <div
+            style={{
+              fontSize: 17,
+              lineHeight: 1.65,
+              color: "#4A2828",
+              fontWeight: 400,
+              fontStyle: "italic",
+              paddingLeft: 4,
+            }}
+          >
+            {quote.q.trim()}
+          </div>
+          <div
+            style={{
+              marginTop: 12,
+              fontSize: 12,
+              fontWeight: 600,
+              color: "#A05050",
+              letterSpacing: "0.04em",
+            }}
+          >
+            — {quote.a}
+          </div>
+        </div>
+      </div>
+
       {/* TONIGHT LINK */}
       <div
-        style={{ ...fade(0.9), padding: "8px 26px 48px", textAlign: "center" }}
+        style={{ ...fade(0.95), padding: "8px 26px 48px", textAlign: "center" }}
       >
         <Link
           href="/tonight"
