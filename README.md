@@ -1,8 +1,24 @@
-Personal morning page to scroll on my phone after waking up, so i don't look at socials or world news first thing 🌞 
+Personalized morning page to scroll on my phone after waking up, so i don't look at socials or world news first thing 🌞 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-notes: 
+### Features
+
+- live weather, sunrise + sunset times, and AQI
+- Song of the Day - random selection from a hard coded copy of my apple Awaken playlist
+- Morning Brief - urgent news scanner via Claude web search - ideally often "Nothing notable"
+- Todo list - small one mainly for household chores
+- Astronomy Picture of the Day
+- Random Thic Nhat Hanh quote - selected from a large static list
+- Art of the Day - random selection from Chicago Art Institute api plus AI generated story about it
+- Random Tao Te Ching selection from [json-ified public domain translation](https://github.com/basilleaf/tau-te-ching-json) with AI generated "what does it mean" summary
+- A few different Quotes of the Day sections
+- Stories from Good News Network via their RSS Feed
+- Stories from Yoga Journal via their RSS Feed
+
+
+
+### Notes
 
 News section is hyper local and/or only major news I would want to know about, which is very little and mostly nothing. 
 
@@ -23,5 +39,5 @@ Copy `.env.example` to `.env` (or `.env.local`) and fill in:
 | `ANTHROPIC_API_KEY` | Anthropic API key — used to generate modern reflections on each day's Tao Te Ching verse. Reflections are cached in Postgres so each verse is only generated once. Get one at [console.anthropic.com](https://console.anthropic.com). |
 | `DATABASE_URL` | Neon Postgres connection string (pooled). |
 
-<img width="402" height="7530" alt="image" src="https://github.com/user-attachments/assets/c42b6dcc-abae-4d03-8e37-0b3fe6835228" />
+<img width="1733" height="11388" alt="image" src="https://github.com/user-attachments/assets/6f37a20b-35c5-40f8-965e-851a9bb8188d" />
 
