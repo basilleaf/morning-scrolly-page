@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 const LAT = 37.6941;
 const LON = -122.0858;
 
@@ -35,7 +37,7 @@ export async function GET() {
     `&timezone=America%2FLos_Angeles` +
     `&forecast_days=1`;
 
-  const res = await fetch(url, { next: { revalidate: 1800 } });
+  const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) {
     return Response.json({ summary: "Weather unavailable", emoji: "🌡️" }, { status: 502 });
   }

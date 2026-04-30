@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 const ZIP = "94546";
 
 const CATEGORY_EMOJI: Record<number, string> = {
@@ -24,7 +26,7 @@ export async function GET() {
     `&distance=20` +
     `&API_KEY=${apiKey}`;
 
-  const res = await fetch(url, { next: { revalidate: 3600 } });
+  const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) {
     return Response.json({ error: "AirNow unavailable" }, { status: 502 });
   }
