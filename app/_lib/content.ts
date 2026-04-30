@@ -13,8 +13,19 @@ export function seededRandom(seed: string) {
 }
 
 import taoData from "./tao.json";
+import musicData from "./music.json";
 
 export const TAO: { verse: number; text: string }[] = taoData;
+
+type MusicTrack = { name: string; artist: string; artworkUrl: string; url: string };
+export const SONGS: MusicTrack[] = (musicData as { data: { relationships?: { tracks?: { data: { attributes: { name: string; artistName: string; artwork: { url: string }; url: string } }[] } } }[] }).data
+  .flatMap((playlist) => playlist.relationships?.tracks?.data ?? [])
+  .map((track) => ({
+    name: track.attributes.name,
+    artist: track.attributes.artistName,
+    artworkUrl: track.attributes.artwork.url.replace("{w}x{h}", "104x104"),
+    url: track.attributes.url,
+  }));
 
 export const BUDDHIST = [
   "The mind is everything. What you think, you become.",
