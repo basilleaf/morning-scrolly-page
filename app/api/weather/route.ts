@@ -30,7 +30,7 @@ export async function GET() {
     `https://api.open-meteo.com/v1/forecast` +
     `?latitude=${LAT}&longitude=${LON}` +
     `&current=temperature_2m,weather_code` +
-    `&daily=temperature_2m_max` +
+    `&daily=temperature_2m_max,sunrise,sunset` +
     `&temperature_unit=fahrenheit` +
     `&timezone=America%2FLos_Angeles` +
     `&forecast_days=1`;
@@ -46,8 +46,17 @@ export async function GET() {
   const high = Math.round(data.daily.temperature_2m_max[0]);
   const { label, emoji } = WMO[code] ?? { label: "Unknown", emoji: "🌡️" };
 
+  const fmt = (iso: string) => {
+    const d = new Date(iso);
+    return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+  };
+  const sunrise = fmt(data.daily.sunrise[0]);
+  const sunset = fmt(data.daily.sunset[0]);
+
   return Response.json({
     summary: `${temp}°F · ${label} · High ${high}°`,
     emoji,
+    sunrise,
+    sunset,
   });
 }

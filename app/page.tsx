@@ -143,6 +143,8 @@ export default function MorningPage() {
   const [weather, setWeather] = useState<{
     summary: string;
     emoji: string;
+    sunrise: string;
+    sunset: string;
   } | null>(null);
   const [aqi, setAqi] = useState<{
     aqi: number;
@@ -318,6 +320,25 @@ export default function MorningPage() {
             <span>{weather?.emoji ?? "🌡️"}</span>
             <span>{weather?.summary ?? "Loading…"}</span>
           </div>
+          {weather?.sunrise && (
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "white",
+                borderRadius: 99,
+                padding: "8px 16px",
+                fontSize: 13,
+                color: "#666",
+                fontWeight: 500,
+                boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+              }}
+            >
+              <span>🌅</span>
+              <span>{weather.sunrise} · {weather.sunset}</span>
+            </div>
+          )}
           {aqi && (
             <div
               style={{
