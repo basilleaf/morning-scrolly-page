@@ -39,5 +39,5 @@ Copy `.env.example` to `.env` (or `.env.local`) and fill in:
 | `ANTHROPIC_API_KEY` | Anthropic API key — used to generate modern reflections on each day's Tao Te Ching verse. Reflections are cached in Postgres so each verse is only generated once. Get one at [console.anthropic.com](https://console.anthropic.com). |
 | `DATABASE_URL` | Neon Postgres connection string (pooled). |
 
-<img width="943" height="8468" alt="image" src="https://github.com/user-attachments/assets/bf4828ae-94b2-42d9-831e-024b41174f5e" />
+<img width="1330" height="13473" alt="image" src="https://github.com/user-attachments/assets/8493f2b0-4cad-4698-86f5-a1742cb2f27e" />
 
