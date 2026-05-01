@@ -284,6 +284,7 @@ export default function MorningPage() {
         }}
       >
         <div
+          suppressHydrationWarning
           style={{
             fontSize: 12,
             fontWeight: 600,
@@ -911,7 +912,7 @@ export default function MorningPage() {
                   marginBottom: 5,
                 }}
               >
-                Art of the Day · Art Institute of Chicago
+                Art of the Day · The Met
               </div>
               <div
                 style={{
