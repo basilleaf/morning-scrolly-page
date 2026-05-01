@@ -6,7 +6,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 - live weather, sunrise + sunset times, and AQI
 - Song of the Day - random selection from a hard coded copy of my apple Awaken playlist
-- Morning Brief - urgent news scanner via Claude web search - ideally often "Nothing notable"
+- Morning Brief - urgent news scanner via Claude web search - limited allowed - threat monitoring only - ideally "Nothing notable"
 - Todo list - small one mainly for household chores
 - Astronomy Picture of the Day
 - Random Thic Nhat Hanh quote - selected from a large static list
