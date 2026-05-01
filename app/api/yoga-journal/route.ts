@@ -24,7 +24,13 @@ export async function GET() {
 
   const xml = await res.text();
 
-  const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0, 5);
+  const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)]
+    .filter((match) => {
+      const titleMatch = match[1].match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/);
+      const title = (titleMatch?.[1] ?? "").trim();
+      return !title.includes("Deal of the Week");
+    })
+    .slice(0, 5);
 
   const stories = items.map((match) => {
     const item = match[1];
