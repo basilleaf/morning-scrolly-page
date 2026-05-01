@@ -10,6 +10,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - Todo list - small one mainly for household chores
 - Astronomy Picture of the Day
 - Random Thic Nhat Hanh quote - selected from a large static list
+- css breathing animation - 4 in 6 out
 - Art of the Day - random selection from The Met api plus AI generated story about it
 - Random Tao Te Ching selection from [json-ified public domain translation](https://github.com/basilleaf/tau-te-ching-json) with AI generated "what does it mean" summary
 - A few different Quotes of the Day sections
@@ -39,5 +40,5 @@ Copy `.env.example` to `.env` (or `.env.local`) and fill in:
 | `ANTHROPIC_API_KEY` | Anthropic API key — used to generate modern reflections on each day's Tao Te Ching verse. Reflections are cached in Postgres so each verse is only generated once. Get one at [console.anthropic.com](https://console.anthropic.com). |
 | `DATABASE_URL` | Neon Postgres connection string (pooled). |
 
-<img width="1330" height="13473" alt="image" src="https://github.com/user-attachments/assets/8493f2b0-4cad-4698-86f5-a1742cb2f27e" />
+<img width="960" height="7992" alt="image" src="https://github.com/user-attachments/assets/9f468223-b141-4edf-8738-bdda67091566" />
 
