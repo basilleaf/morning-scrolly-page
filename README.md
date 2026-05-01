@@ -10,7 +10,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - Todo list - small one mainly for household chores
 - Astronomy Picture of the Day
 - Random Thic Nhat Hanh quote - selected from a large static list
-- Art of the Day - random selection from Chicago Art Institute api plus AI generated story about it
+- Art of the Day - random selection from The Met api plus AI generated story about it
 - Random Tao Te Ching selection from [json-ified public domain translation](https://github.com/basilleaf/tau-te-ching-json) with AI generated "what does it mean" summary
 - A few different Quotes of the Day sections
 - Stories from Good News Network via their RSS Feed
