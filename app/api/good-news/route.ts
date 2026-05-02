@@ -1,5 +1,7 @@
 export const dynamic = "force-dynamic";
 
+import { BLOCKED_TOPICS } from "@/lib/content-filters";
+
 function decodeEntities(str: string): string {
   return str
     .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
@@ -16,15 +18,11 @@ function decodeEntities(str: string): string {
 
 export async function GET() {
   const res = await fetch(
-    `https://www.goodnewsnetwork.org/wp-json/wp/v2/posts?per_page=5&_embed&_=${new Date().toISOString().slice(0, 10)}`,
+    `https://www.goodnewsnetwork.org/wp-json/wp/v2/posts?per_page=20&_embed&_=${new Date().toISOString().slice(0, 10)}`,
     {
       cache: "no-store",
       headers: { "User-Agent": "Mozilla/5.0" },
     },
-  );
-
-  console.log(
-    `https://www.goodnewsnetwork.org/wp-json/wp/v2/posts?per_page=5&_embed&_=${new Date().toISOString().slice(0, 10)}`,
   );
 
   if (!res.ok) {
@@ -33,42 +31,50 @@ export async function GET() {
 
   const posts = await res.json();
 
-  const stories = posts.map((post: Record<string, unknown>) => {
-    const title = decodeEntities(
-      ((post.title as Record<string, string>).rendered ?? "").replace(
-        /<[^>]+>/g,
-        "",
-      ),
-    );
+  const stories = posts
+    .filter((post: Record<string, unknown>) => {
+      const title = (post.title as Record<string, string>).rendered ?? "";
+      return !BLOCKED_TOPICS.test(title);
+    })
+    .map((post: Record<string, unknown>) => {
+      const title = decodeEntities(
+        ((post.title as Record<string, string>).rendered ?? "").replace(
+          /<[^>]+>/g,
+          "",
+        ),
+      );
 
-    const rawExcerpt = ((post.excerpt as Record<string, string>).rendered ?? "")
-      .replace(/<[^>]+>/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
-    const description = decodeEntities(rawExcerpt)
-      .replace(/\s*\[…\]\s*$/, "")
-      .trim();
+      const rawExcerpt = (
+        (post.excerpt as Record<string, string>).rendered ?? ""
+      )
+        .replace(/<[^>]+>/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+      const description = decodeEntities(rawExcerpt)
+        .replace(/\s*\[…\]\s*$/, "")
+        .trim();
 
-    const media = ((post._embedded as Record<string, unknown[]>)?.[
-      "wp:featuredmedia"
-    ] ?? [])[0] as Record<string, unknown> | undefined;
-    const sizes = (media?.media_details as Record<string, unknown>)?.sizes as
-      | Record<string, { source_url: string }>
-      | undefined;
-    const imageUrl =
-      sizes?.medium?.source_url ??
-      sizes?.["medium_large"]?.source_url ??
-      (media?.source_url as string | undefined) ??
-      null;
+      const media = ((post._embedded as Record<string, unknown[]>)?.[
+        "wp:featuredmedia"
+      ] ?? [])[0] as Record<string, unknown> | undefined;
+      const sizes = (media?.media_details as Record<string, unknown>)?.sizes as
+        | Record<string, { source_url: string }>
+        | undefined;
+      const imageUrl =
+        sizes?.medium?.source_url ??
+        sizes?.["medium_large"]?.source_url ??
+        (media?.source_url as string | undefined) ??
+        null;
 
-    return {
-      title,
-      link: post.link as string,
-      description,
-      imageUrl,
-      pubDate: post.date as string,
-    };
-  });
+      return {
+        title,
+        link: post.link as string,
+        description,
+        imageUrl,
+        pubDate: post.date as string,
+      };
+    })
+    .slice(0, 5);
 
   return Response.json({ stories });
 }

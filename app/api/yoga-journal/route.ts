@@ -1,3 +1,5 @@
+import { BLOCKED_TOPICS } from "@/lib/content-filters";
+
 function decodeEntities(str: string): string {
   return str
     .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
@@ -30,7 +32,7 @@ export async function GET() {
         /<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/,
       );
       const title = (titleMatch?.[1] ?? "").trim();
-      return !title.includes("Deal of the Week");
+      return !title.includes("Deal of the Week") && !BLOCKED_TOPICS.test(title);
     })
     .slice(0, 5);
 
