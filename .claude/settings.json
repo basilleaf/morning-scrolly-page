@@ -1,0 +1,19 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path' | xargs npx prettier --write --log-level warn"
+          },
+          {
+            "type": "command",
+            "command": "npx tsc --noEmit 2>&1 | head -30"
+          }
+        ]
+      }
+    ]
+  }
+}
