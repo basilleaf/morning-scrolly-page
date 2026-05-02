@@ -1,4 +1,4 @@
-Personalized morning page to scroll on my phone after waking up, so i don't look at socials or world news first thing 🌞 
+Personalized morning page to scroll on my phone after waking up, so i don't look at socials or world news first thing 🌞
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
@@ -17,17 +17,15 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - Stories from Good News Network via their RSS Feed
 - Stories from Yoga Journal via their RSS Feed
 
-
-
 ### Notes
 
-News section is hyper local and/or only major news I would want to know about, which is very little and mostly nothing. 
+News section is hyper local and/or only major news I would want to know about, which is very little and mostly nothing.
 
-fetch Apple music playlist as json with: 
+fetch Apple music playlist as json with:
 
 curl -v "https://api.music.apple.com/v1/catalog/us/playlists/<playlist_id>?include=tracks" \
-  -H "Authorization: Bearer <Bearer token>" \
-  -H "Origin: https://music.apple.com"
+ -H "Authorization: Bearer <Bearer token>" \
+ -H "Origin: https://music.apple.com"
 
 get the token from loggin in at: https://beta.music.apple.com/
 
@@ -35,10 +33,9 @@ get the token from loggin in at: https://beta.music.apple.com/
 
 Copy `.env.example` to `.env` (or `.env.local`) and fill in:
 
-| Variable | Description |
-|---|---|
+| Variable            | Description                                                                                                                                                                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ANTHROPIC_API_KEY` | Anthropic API key — used to generate modern reflections on each day's Tao Te Ching verse. Reflections are cached in Postgres so each verse is only generated once. Get one at [console.anthropic.com](https://console.anthropic.com). |
-| `DATABASE_URL` | Neon Postgres connection string (pooled). |
+| `DATABASE_URL`      | Neon Postgres connection string (pooled).                                                                                                                                                                                             |
 
 <img width="960" height="7992" alt="image" src="https://github.com/user-attachments/assets/9f468223-b141-4edf-8738-bdda67091566" />
-

@@ -26,7 +26,9 @@ export async function GET() {
 
   const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)]
     .filter((match) => {
-      const titleMatch = match[1].match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/);
+      const titleMatch = match[1].match(
+        /<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/,
+      );
       const title = (titleMatch?.[1] ?? "").trim();
       return !title.includes("Deal of the Week");
     })

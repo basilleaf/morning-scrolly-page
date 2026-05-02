@@ -205,7 +205,10 @@ export default function MorningPage() {
 
   useEffect(() => {
     if (!artwork) return;
-    const params = new URLSearchParams({ id: String(artwork.id), title: artwork.title });
+    const params = new URLSearchParams({
+      id: String(artwork.id),
+      title: artwork.title,
+    });
     if (artwork.artist) params.set("artist", artwork.artist);
     if (artwork.date) params.set("date", artwork.date);
     if (artwork.medium) params.set("medium", artwork.medium);
@@ -357,7 +360,9 @@ export default function MorningPage() {
               }}
             >
               <span>🌅</span>
-              <span>{weather.sunrise} · {weather.sunset}</span>
+              <span>
+                {weather.sunrise} · {weather.sunset}
+              </span>
             </div>
           )}
           {aqi && (
@@ -913,41 +918,83 @@ export default function MorningPage() {
             }}
           >
             {/* left eye — closed arc */}
-            <div style={{ position: "absolute", width: 9, height: 4, border: "1.5px solid #9B8FC0", borderBottomColor: "transparent", borderRadius: "50%", top: "32%", left: "32%" }} />
+            <div
+              style={{
+                position: "absolute",
+                width: 9,
+                height: 4,
+                border: "1.5px solid #9B8FC0",
+                borderBottomColor: "transparent",
+                borderRadius: "50%",
+                top: "32%",
+                left: "32%",
+              }}
+            />
             {/* right eye — closed arc */}
-            <div style={{ position: "absolute", width: 9, height: 4, border: "1.5px solid #9B8FC0", borderBottomColor: "transparent", borderRadius: "50%", top: "32%", right: "32%" }} />
+            <div
+              style={{
+                position: "absolute",
+                width: 9,
+                height: 4,
+                border: "1.5px solid #9B8FC0",
+                borderBottomColor: "transparent",
+                borderRadius: "50%",
+                top: "32%",
+                right: "32%",
+              }}
+            />
             {/* smile — shallow arc */}
-            <div style={{
-              position: "absolute",
-              width: 20,
-              height: 7,
-              top: "47%",
-              left: "50%",
-              transform: "translateX(-50%)",
-              border: "1.5px solid #9B8FC0",
-              borderTop: "none",
-              borderRadius: "0 0 20px 20px",
-            }} />
+            <div
+              style={{
+                position: "absolute",
+                width: 20,
+                height: 7,
+                top: "47%",
+                left: "50%",
+                transform: "translateX(-50%)",
+                border: "1.5px solid #9B8FC0",
+                borderTop: "none",
+                borderRadius: "0 0 20px 20px",
+              }}
+            />
           </div>
-          <div style={{ marginTop: 20, height: 18, position: "relative", width: 60, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{
-              position: "absolute",
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "#9B8FC0",
-              animation: "breathe-in-label 14s ease-in-out infinite",
-            }}>in</span>
-            <span style={{
-              position: "absolute",
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "#9B8FC0",
-              animation: "breathe-out-label 14s ease-in-out infinite",
-            }}>out</span>
+          <div
+            style={{
+              marginTop: 20,
+              height: 18,
+              position: "relative",
+              width: 60,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span
+              style={{
+                position: "absolute",
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "#9B8FC0",
+                animation: "breathe-in-label 14s ease-in-out infinite",
+              }}
+            >
+              in
+            </span>
+            <span
+              style={{
+                position: "absolute",
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "#9B8FC0",
+                animation: "breathe-out-label 14s ease-in-out infinite",
+              }}
+            >
+              out
+            </span>
           </div>
         </div>
       </div>

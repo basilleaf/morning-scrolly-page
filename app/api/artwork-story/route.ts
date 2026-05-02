@@ -122,7 +122,10 @@ export async function GET(request: Request) {
   }
 
   if (!story) {
-    return Response.json({ error: "Failed to generate story" }, { status: 500 });
+    return Response.json(
+      { error: "Failed to generate story" },
+      { status: 500 },
+    );
   }
 
   await saveArtworkStory(id, story);

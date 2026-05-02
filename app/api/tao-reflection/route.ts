@@ -1,5 +1,9 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { initTaoReflections, getTaoReflection, saveTaoReflection } from "@/app/_lib/db";
+import {
+  initTaoReflections,
+  getTaoReflection,
+  saveTaoReflection,
+} from "@/app/_lib/db";
 import { TAO } from "@/app/_lib/content";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });

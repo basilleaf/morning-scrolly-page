@@ -24,7 +24,8 @@ export async function initTaoReflections() {
 }
 
 export async function getTaoReflection(verse: number): Promise<string | null> {
-  const rows = await sql`SELECT reflection FROM tao_reflections WHERE verse = ${verse}`;
+  const rows =
+    await sql`SELECT reflection FROM tao_reflections WHERE verse = ${verse}`;
   return rows[0]?.reflection ?? null;
 }
 
@@ -71,8 +72,11 @@ export async function initArtworkStories() {
   `;
 }
 
-export async function getArtworkStory(artworkId: number): Promise<string | null> {
-  const rows = await sql`SELECT story FROM artwork_stories WHERE artwork_id = ${artworkId}`;
+export async function getArtworkStory(
+  artworkId: number,
+): Promise<string | null> {
+  const rows =
+    await sql`SELECT story FROM artwork_stories WHERE artwork_id = ${artworkId}`;
   return rows[0]?.story ?? null;
 }
 
@@ -86,12 +90,14 @@ export async function saveArtworkStory(artworkId: number, story: string) {
 export type TodoRow = { id: number; text: string; done: boolean };
 
 export async function getTodos(): Promise<TodoRow[]> {
-  const rows = await sql`SELECT id, text, done FROM todos ORDER BY created_at ASC`;
+  const rows =
+    await sql`SELECT id, text, done FROM todos ORDER BY created_at ASC`;
   return rows as TodoRow[];
 }
 
 export async function addTodo(text: string): Promise<TodoRow> {
-  const rows = await sql`INSERT INTO todos (text) VALUES (${text}) RETURNING id, text, done`;
+  const rows =
+    await sql`INSERT INTO todos (text) VALUES (${text}) RETURNING id, text, done`;
   return rows[0] as TodoRow;
 }
 

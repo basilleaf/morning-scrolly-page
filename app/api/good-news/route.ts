@@ -26,7 +26,10 @@ export async function GET() {
 
   const stories = posts.map((post: Record<string, unknown>) => {
     const title = decodeEntities(
-      ((post.title as Record<string, string>).rendered ?? "").replace(/<[^>]+>/g, ""),
+      ((post.title as Record<string, string>).rendered ?? "").replace(
+        /<[^>]+>/g,
+        "",
+      ),
     );
 
     const rawExcerpt = ((post.excerpt as Record<string, string>).rendered ?? "")
@@ -37,8 +40,12 @@ export async function GET() {
       .replace(/\s*\[…\]\s*$/, "")
       .trim();
 
-    const media = ((post._embedded as Record<string, unknown[]>)?.["wp:featuredmedia"] ?? [])[0] as Record<string, unknown> | undefined;
-    const sizes = (media?.media_details as Record<string, unknown>)?.sizes as Record<string, { source_url: string }> | undefined;
+    const media = ((post._embedded as Record<string, unknown[]>)?.[
+      "wp:featuredmedia"
+    ] ?? [])[0] as Record<string, unknown> | undefined;
+    const sizes = (media?.media_details as Record<string, unknown>)?.sizes as
+      | Record<string, { source_url: string }>
+      | undefined;
     const imageUrl =
       sizes?.medium?.source_url ??
       sizes?.["medium_large"]?.source_url ??

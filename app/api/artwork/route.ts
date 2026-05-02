@@ -15,7 +15,10 @@ export async function GET() {
   try {
     ids = await getHighlightIds();
   } catch {
-    return Response.json({ error: "Failed to fetch artwork list" }, { status: 502 });
+    return Response.json(
+      { error: "Failed to fetch artwork list" },
+      { status: 502 },
+    );
   }
 
   const dateStr = new Date().toDateString();
@@ -38,7 +41,10 @@ export async function GET() {
   }
 
   if (!a) {
-    return Response.json({ error: "No artwork with image found" }, { status: 404 });
+    return Response.json(
+      { error: "No artwork with image found" },
+      { status: 404 },
+    );
   }
 
   return Response.json({
@@ -49,6 +55,8 @@ export async function GET() {
     medium: a.medium || null,
     description: a.creditLine || null,
     imageUrl: a.primaryImageSmall || a.primaryImage || null,
-    artworkUrl: a.objectURL ?? `https://www.metmuseum.org/art/collection/search/${a.objectID}`,
+    artworkUrl:
+      a.objectURL ??
+      `https://www.metmuseum.org/art/collection/search/${a.objectID}`,
   });
 }
