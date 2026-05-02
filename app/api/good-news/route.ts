@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 function decodeEntities(str: string): string {
   return str
     .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
@@ -14,8 +16,15 @@ function decodeEntities(str: string): string {
 
 export async function GET() {
   const res = await fetch(
-    "https://www.goodnewsnetwork.org/wp-json/wp/v2/posts?per_page=5&_embed",
-    { next: { revalidate: 3600 }, headers: { "User-Agent": "Mozilla/5.0" } },
+    `https://www.goodnewsnetwork.org/wp-json/wp/v2/posts?per_page=5&_embed&_=${new Date().toISOString().slice(0, 10)}`,
+    {
+      cache: "no-store",
+      headers: { "User-Agent": "Mozilla/5.0" },
+    },
+  );
+
+  console.log(
+    `https://www.goodnewsnetwork.org/wp-json/wp/v2/posts?per_page=5&_embed&_=${new Date().toISOString().slice(0, 10)}`,
   );
 
   if (!res.ok) {
