@@ -2,13 +2,6 @@ import { NextResponse } from "next/server";
 import { initNewsCache, getNewsCache, saveNewsCache } from "@/app/_lib/db";
 
 export async function POST() {
-  // turning this off temporarily saving tokens
-  return NextResponse.json({
-    status: "all_clear",
-    summary: "Nothing Notable",
-    items: [],
-  });
-
   try {
     await initNewsCache();
     const cached = await getNewsCache(60);
@@ -28,7 +21,7 @@ export async function POST() {
         "anthropic-beta": "web-search-2025-03-05",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-6",
+        model: "claude-haiku-4-5-20251001",
         max_tokens: 1000,
         tools: [{ type: "web_search_20250305", name: "web_search" }],
         system: `You are a concise local news filter. Today is ${today}.
@@ -57,12 +50,10 @@ export async function POST() {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error(
-        "Anthropic API error:",
-        data?.error?.message ?? JSON.stringify(data),
-      );
+      const msg = data?.error?.message ?? JSON.stringify(data);
+      console.error("Anthropic API error:", msg);
       return NextResponse.json(
-        { status: "all_clear", summary: "Could not load briefing.", items: [] },
+        { status: "error", summary: msg, items: [] },
         { status: 500 },
       );
     }
@@ -72,14 +63,21 @@ export async function POST() {
       .map((b: { text: string }) => b.text)
       .join("");
 
-    const clean = textBlocks.replace(/```json|```/g, "").trim();
-    const result = JSON.parse(clean);
+    const jsonMatch = textBlocks.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      console.error("No JSON found in response:", textBlocks);
+      return NextResponse.json(
+        { status: "all_clear", summary: "Nothing notable.", items: [] },
+      );
+    }
+    const result = JSON.parse(jsonMatch[0]);
     await saveNewsCache(result);
     return NextResponse.json(result);
   } catch (err) {
-    console.error("news-check error:", err);
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("news-check error:", msg);
     return NextResponse.json(
-      { status: "all_clear", summary: "Could not load briefing.", items: [] },
+      { status: "error", summary: msg, items: [] },
       { status: 500 },
     );
   }

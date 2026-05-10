@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 type Severity = "low" | "medium" | "high";
 
@@ -23,32 +23,58 @@ const severityColor: Record<Severity, string> = {
 
 export default function NewsDigest() {
   const [result, setResult] = useState<CheckResult | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const check = () => {
+    setLoading(true);
+    setError(null);
     fetch("/api/news-check", { method: "POST" })
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.summary ?? `HTTP ${res.status}`);
+        return data;
       })
       .then((data: CheckResult) => setResult(data))
       .catch((err) =>
         setError(err instanceof Error ? err.message : "Something went wrong"),
       )
       .finally(() => setLoading(false));
-  }, []);
+  };
 
   const isAllClear =
     !result || result.status === "all_clear" || result.items.length === 0;
   const hasHigh = result?.items.some((i) => i.severity === "high");
-  const dotColor = loading
-    ? "#ccc"
-    : isAllClear
-      ? "#1D9E75"
-      : hasHigh
-        ? "#E24B4A"
-        : "#EF9F27";
+  const dotColor = isAllClear ? "#1D9E75" : hasHigh ? "#E24B4A" : "#EF9F27";
+
+  if (!result && !loading && !error) {
+    return (
+      <div style={{ fontFamily: "inherit" }}>
+        <button
+          onClick={check}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            background: "#F5F5F5",
+            border: "none",
+            borderRadius: 99,
+            padding: "7px 14px",
+            fontSize: 13,
+            color: "#888",
+            fontWeight: 500,
+            cursor: "pointer",
+          }}
+        >
+          <span>📡</span>
+          <span>Check news</span>
+        </button>
+        <p style={{ fontSize: "11px", color: "#bbb", margin: "8px 0 0" }}>
+          94546 · Castro Valley
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div style={{ fontFamily: "inherit" }}>
@@ -73,7 +99,7 @@ export default function NewsDigest() {
                 width: "9px",
                 height: "9px",
                 borderRadius: "50%",
-                background: dotColor,
+                background: loading ? "#ccc" : dotColor,
                 flexShrink: 0,
                 marginTop: "5px",
                 transition: "background 0.3s",

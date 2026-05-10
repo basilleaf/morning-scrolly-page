@@ -165,7 +165,6 @@ export default function MorningPage() {
   };
   const [goodNews, setGoodNews] = useState<GoodNewsStory[]>([]);
   const [yogaStories, setYogaStories] = useState<GoodNewsStory[]>([]);
-
   useEffect(() => {
     setTimeout(() => setVisible(true), 80);
     fetch("/api/weather")
@@ -371,6 +370,7 @@ const toggleTodo = async (todo: Todo) => {
             </div>
           )}
         </div>
+
       </div>
 
       {/* SONG CARD */}
