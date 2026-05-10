@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import { initNewsCache, getNewsCache, saveNewsCache } from "@/app/_lib/db";
 
 export async function POST() {
+  // turning this off temporarily saving tokens
+  return NextResponse.json({
+    status: "all_clear",
+    summary: "Nothing Notable",
+    items: [],
+  });
+
   try {
     await initNewsCache();
     const cached = await getNewsCache(60);

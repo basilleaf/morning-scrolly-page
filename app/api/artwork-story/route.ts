@@ -35,6 +35,9 @@ function stripNarration(text: string): string {
 }
 
 export async function GET(request: Request) {
+  // turning this off temporarily saving tokens
+  return Response.json({ error: "Failed to generate story" }, { status: 500 });
+
   const { searchParams } = new URL(request.url);
   const id = parseInt(searchParams.get("id") ?? "0", 10);
   const title = searchParams.get("title") ?? "";
