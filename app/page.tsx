@@ -155,7 +155,6 @@ export default function MorningPage() {
   } | null>(null);
   const [taoReflection, setTaoReflection] = useState<string | null>(null);
   const [artwork, setArtwork] = useState<Artwork | null>(null);
-  const [artworkStory, setArtworkStory] = useState<string | null>(null);
   const [apod, setApod] = useState<Apod | null>(null);
   type GoodNewsStory = {
     title: string;
@@ -203,22 +202,7 @@ export default function MorningPage() {
       .catch(() => {});
   }, []);
 
-  useEffect(() => {
-    if (!artwork) return;
-    const params = new URLSearchParams({
-      id: String(artwork.id),
-      title: artwork.title,
-    });
-    if (artwork.artist) params.set("artist", artwork.artist);
-    if (artwork.date) params.set("date", artwork.date);
-    if (artwork.medium) params.set("medium", artwork.medium);
-    fetch(`/api/artwork-story?${params}`)
-      .then((r) => r.json())
-      .then((d) => d.story && setArtworkStory(d.story))
-      .catch(() => {});
-  }, [artwork]);
-
-  const toggleTodo = async (todo: Todo) => {
+const toggleTodo = async (todo: Todo) => {
     const next = !todo.done;
     setTodos((prev) =>
       prev.map((t) => (t.id === todo.id ? { ...t, done: next } : t)),
@@ -1069,13 +1053,13 @@ export default function MorningPage() {
                   style={{
                     fontSize: 11,
                     color: "#BBB",
-                    marginBottom: artworkStory || artwork.description ? 10 : 0,
+                    marginBottom: artwork.description ? 10 : 0,
                   }}
                 >
                   {artwork.medium}
                 </div>
               )}
-              {(artworkStory || artwork?.description) && (
+              {artwork?.description && (
                 <div
                   style={{
                     fontSize: 15,
@@ -1084,19 +1068,7 @@ export default function MorningPage() {
                     marginTop: 8,
                   }}
                 >
-                  {artworkStory ?? artwork?.description}
-                </div>
-              )}
-              {artwork && !artworkStory && !artwork.description && (
-                <div
-                  style={{
-                    fontSize: 12,
-                    color: "#CCC",
-                    marginTop: 8,
-                    fontStyle: "italic",
-                  }}
-                >
-                  Loading story…
+                  {artwork.description}
                 </div>
               )}
             </div>

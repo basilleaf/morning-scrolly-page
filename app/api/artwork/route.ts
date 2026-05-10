@@ -1,62 +1,30 @@
 import { seededRandom } from "@/app/_lib/content";
-
-async function getHighlightIds(): Promise<number[]> {
-  const res = await fetch(
-    "https://collectionapi.metmuseum.org/public/collection/v1/search?isHighlight=true&hasImages=true&isPublicDomain=true&q=*",
-    { next: { revalidate: 604800 } }, // refresh weekly
-  );
-  if (!res.ok) throw new Error("Failed to fetch Met highlights");
-  const json = await res.json();
-  return json.objectIDs as number[];
-}
+import { getMetArtworkCount, getMetArtworkAtOffset } from "@/app/_lib/db";
 
 export async function GET() {
-  let ids: number[];
-  try {
-    ids = await getHighlightIds();
-  } catch {
-    return Response.json(
-      { error: "Failed to fetch artwork list" },
-      { status: 502 },
-    );
+  const count = await getMetArtworkCount();
+  if (!count) {
+    return Response.json({ error: "No artworks in database" }, { status: 503 });
   }
 
   const dateStr = new Date().toDateString();
-  const rng = seededRandom(dateStr);
-  const startIdx = Math.floor(rng() * ids.length);
+  const offset = Math.floor(seededRandom(dateStr)() * count);
+  const artwork = await getMetArtworkAtOffset(offset);
 
-  let a: Record<string, unknown> | null = null;
-  for (let i = 0; i < 20; i++) {
-    const id = ids[(startIdx + i) % ids.length];
-    const res = await fetch(
-      `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`,
-      { next: { revalidate: 86400 } },
-    );
-    if (!res.ok) continue;
-    const candidate = await res.json();
-    if (candidate.primaryImageSmall || candidate.primaryImage) {
-      a = candidate;
-      break;
-    }
-  }
-
-  if (!a) {
-    return Response.json(
-      { error: "No artwork with image found" },
-      { status: 404 },
-    );
+  if (!artwork) {
+    return Response.json({ error: "Artwork not found" }, { status: 404 });
   }
 
   return Response.json({
-    id: a.objectID,
-    title: a.title ?? "Untitled",
-    artist: a.artistDisplayName || null,
-    date: a.objectDate || null,
-    medium: a.medium || null,
-    description: a.creditLine || null,
-    imageUrl: a.primaryImageSmall || a.primaryImage || null,
+    id: artwork.object_id,
+    title: artwork.title,
+    artist: artwork.artist,
+    date: artwork.date,
+    medium: artwork.medium,
+    description: artwork.description,
+    imageUrl: artwork.image_url_small || artwork.image_url,
     artworkUrl:
-      a.objectURL ??
-      `https://www.metmuseum.org/art/collection/search/${a.objectID}`,
+      artwork.artwork_url ??
+      `https://www.metmuseum.org/art/collection/search/${artwork.object_id}`,
   });
 }

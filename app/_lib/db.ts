@@ -62,29 +62,34 @@ export async function saveNewsCache(result: unknown) {
   `;
 }
 
-export async function initArtworkStories() {
-  await sql`
-    CREATE TABLE IF NOT EXISTS artwork_stories (
-      artwork_id  INT  PRIMARY KEY,
-      story       TEXT NOT NULL,
-      created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
-    )
-  `;
-}
+export type MetArtworkRow = {
+  id: number;
+  object_id: number;
+  title: string;
+  artist: string | null;
+  artist_bio: string | null;
+  date: string | null;
+  medium: string | null;
+  classification: string | null;
+  department: string | null;
+  description: string;
+  image_url: string | null;
+  image_url_small: string | null;
+  artwork_url: string | null;
+};
 
-export async function getArtworkStory(
-  artworkId: number,
-): Promise<string | null> {
+export async function getMetArtworkCount(): Promise<number> {
   const rows =
-    await sql`SELECT story FROM artwork_stories WHERE artwork_id = ${artworkId}`;
-  return rows[0]?.story ?? null;
+    await sql`SELECT COUNT(*)::int AS count FROM met_artworks`;
+  return (rows[0] as { count: number }).count;
 }
 
-export async function saveArtworkStory(artworkId: number, story: string) {
-  await sql`
-    INSERT INTO artwork_stories (artwork_id, story) VALUES (${artworkId}, ${story})
-    ON CONFLICT (artwork_id) DO NOTHING
-  `;
+export async function getMetArtworkAtOffset(
+  offset: number,
+): Promise<MetArtworkRow | null> {
+  const rows =
+    await sql`SELECT * FROM met_artworks ORDER BY id OFFSET ${offset} LIMIT 1`;
+  return (rows[0] as MetArtworkRow) ?? null;
 }
 
 export type TodoRow = { id: number; text: string; done: boolean };
