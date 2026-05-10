@@ -118,6 +118,13 @@ export default function MorningPage() {
   const quote = quotes[Math.floor(rng() * quotes.length)];
   const tnhQuote = tnhQuotes[Math.floor(rng() * tnhQuotes.length)];
 
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const [showLogin, setShowLogin] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
+
   type Todo = { id: number; text: string; done: boolean };
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
@@ -167,6 +174,10 @@ export default function MorningPage() {
   const [yogaStories, setYogaStories] = useState<GoodNewsStory[]>([]);
   useEffect(() => {
     setTimeout(() => setVisible(true), 80);
+    fetch("/api/auth")
+      .then((r) => r.json())
+      .then((d) => setIsLoggedIn(!!d.ok))
+      .catch(() => setIsLoggedIn(false));
     fetch("/api/weather")
       .then((r) => r.json())
       .then(setWeather)
@@ -174,10 +185,6 @@ export default function MorningPage() {
     fetch("/api/air-quality")
       .then((r) => r.json())
       .then((d) => !d.error && setAqi(d))
-      .catch(() => {});
-    fetch("/api/todos")
-      .then((r) => r.json())
-      .then(setTodos)
       .catch(() => {});
     fetch(`/api/tao-reflection?verse=${tao.verse}`)
       .then((r) => r.json())
@@ -200,6 +207,14 @@ export default function MorningPage() {
       .then((d) => d.stories && setYogaStories(d.stories))
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    fetch("/api/todos")
+      .then((r) => r.json())
+      .then(setTodos)
+      .catch(() => {});
+  }, [isLoggedIn]);
 
 const toggleTodo = async (todo: Todo) => {
     const next = !todo.done;
@@ -233,6 +248,32 @@ const toggleTodo = async (todo: Todo) => {
     }
   };
 
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginLoading(true);
+    setLoginError("");
+    const res = await fetch("/api/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: loginEmail, password: loginPassword }),
+    });
+    if (res.ok) {
+      setIsLoggedIn(true);
+      setShowLogin(false);
+      setLoginEmail("");
+      setLoginPassword("");
+    } else {
+      setLoginError("Wrong password.");
+    }
+    setLoginLoading(false);
+  };
+
+  const handleLogout = async () => {
+    await fetch("/api/auth", { method: "DELETE" });
+    setIsLoggedIn(false);
+    setTodos([]);
+  };
+
   const dayName = now.toLocaleDateString("en-US", { weekday: "long" });
   const monthDay = now.toLocaleDateString("en-US", {
     month: "long",
@@ -261,6 +302,101 @@ const toggleTodo = async (todo: Todo) => {
         paddingBottom: 80,
       }}
     >
+      {/* LOGIN MODAL */}
+      {showLogin && (
+        <div
+          onClick={() => setShowLogin(false)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.3)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 100,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "white",
+              borderRadius: 20,
+              padding: "28px 28px 24px",
+              width: 300,
+              boxShadow: "0 8px 40px rgba(0,0,0,0.15)",
+            }}
+          >
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 700,
+                color: "#2D2D2D",
+                marginBottom: 16,
+                fontFamily: FONT_DISPLAY,
+              }}
+            >
+              Sign in
+            </div>
+            <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <input
+                type="email"
+                placeholder="Email"
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+                autoFocus
+                required
+                style={{
+                  border: `1.5px solid ${PEACH_SOFT}`,
+                  borderRadius: 10,
+                  padding: "9px 12px",
+                  fontSize: 14,
+                  outline: "none",
+                  fontFamily: FONT_BODY,
+                  color: "#2D2D2D",
+                }}
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                required
+                style={{
+                  border: `1.5px solid ${PEACH_SOFT}`,
+                  borderRadius: 10,
+                  padding: "9px 12px",
+                  fontSize: 14,
+                  outline: "none",
+                  fontFamily: FONT_BODY,
+                  color: "#2D2D2D",
+                }}
+              />
+              {loginError && (
+                <p style={{ fontSize: 13, color: "#E24B4A", margin: 0 }}>{loginError}</p>
+              )}
+              <button
+                type="submit"
+                disabled={loginLoading}
+                style={{
+                  background: PEACH,
+                  border: "none",
+                  borderRadius: 10,
+                  color: "white",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  padding: "10px",
+                  cursor: "pointer",
+                  fontFamily: FONT_BODY,
+                  opacity: loginLoading ? 0.6 : 1,
+                }}
+              >
+                {loginLoading ? "Signing in…" : "Sign in"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* HERO DATE */}
       <div
         style={{
@@ -269,6 +405,51 @@ const toggleTodo = async (todo: Todo) => {
           background: `linear-gradient(160deg, ${PEACH_SOFT}88 0%, ${LAVENDER_BG} 60%, ${PAGE_BG} 100%)`,
         }}
       >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: 4,
+          }}
+        >
+          {isLoggedIn === true ? (
+            <button
+              onClick={handleLogout}
+              style={{
+                background: "none",
+                border: "none",
+                fontSize: 11,
+                color: "#C0B0A0",
+                fontWeight: 600,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                cursor: "pointer",
+                padding: 0,
+                fontFamily: FONT_BODY,
+              }}
+            >
+              Sign out
+            </button>
+          ) : isLoggedIn === false ? (
+            <button
+              onClick={() => setShowLogin(true)}
+              style={{
+                background: "none",
+                border: "none",
+                fontSize: 11,
+                color: PEACH,
+                fontWeight: 600,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                cursor: "pointer",
+                padding: 0,
+                fontFamily: FONT_BODY,
+              }}
+            >
+              Sign in
+            </button>
+          ) : null}
+        </div>
         <div
           suppressHydrationWarning
           style={{
@@ -454,23 +635,26 @@ const toggleTodo = async (todo: Todo) => {
       </div>
 
       {/* MORNING BRIEF */}
-      <div style={{ ...fade(0.2), padding: "24px 26px 0" }}>
-        <div
-          style={{
-            background: "white",
-            borderRadius: 20,
-            padding: "20px 22px",
-            boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
-          }}
-        >
-          <SectionLabel color="#E07A5F" bg="#FFE8E0">
-            Morning brief
-          </SectionLabel>
-          <NewsDigest />
+      {isLoggedIn && (
+        <div style={{ ...fade(0.2), padding: "24px 26px 0" }}>
+          <div
+            style={{
+              background: "white",
+              borderRadius: 20,
+              padding: "20px 22px",
+              boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
+            }}
+          >
+            <SectionLabel color="#E07A5F" bg="#FFE8E0">
+              Morning brief
+            </SectionLabel>
+            <NewsDigest />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* TODOS */}
+      {isLoggedIn && (
       <div style={{ ...fade(0.3), padding: "16px 26px 0" }}>
         <div
           style={{
@@ -584,6 +768,7 @@ const toggleTodo = async (todo: Todo) => {
           </div>
         </div>
       </div>
+      )}
 
       {/* DIVIDER — zone 2 */}
       <div
