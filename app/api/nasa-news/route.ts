@@ -1,3 +1,5 @@
+import { BLOCKED_TOPICS } from "@/lib/content-filters";
+
 function decodeEntities(str: string): string {
   return str
     .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
@@ -64,7 +66,7 @@ export async function GET() {
     const pubDate = (pubDateMatch?.[1] ?? "").trim();
 
     return { title, link, description, imageUrl, pubDate };
-  });
+  }).filter(({ title }) => !BLOCKED_TOPICS.test(title));
 
   return Response.json({ stories });
 }
