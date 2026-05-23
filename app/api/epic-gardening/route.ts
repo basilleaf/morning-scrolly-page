@@ -48,7 +48,7 @@ export async function GET() {
     const description = decodeEntities(
       rawHtml
         .replace(/<[^>]+>/g, " ")
-        .replace(/The post .+? appeared first on .+?\./gs, "")
+        .replace(/The post [\s\S]+? appeared first on [\s\S]+?\./g, "")
         .replace(/\s+/g, " ")
         .trim(),
     );
