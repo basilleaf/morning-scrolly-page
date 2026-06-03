@@ -130,7 +130,7 @@ export default function HeroDate({
             boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
           }}
         >
-          <span>{weather?.emoji ?? "🌡️"}</span>
+          <a href="weather://" style={{ textDecoration: "none" }}>{weather?.emoji ?? "🌡️"}</a>
           <span>{weather?.summary ?? "Loading…"}</span>
         </div>
         {weather?.sunrise && (
