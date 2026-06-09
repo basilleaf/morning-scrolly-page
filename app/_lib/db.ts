@@ -79,16 +79,21 @@ export type MetArtworkRow = {
 };
 
 export async function getMetArtworkCount(): Promise<number> {
-  const rows =
-    await sql`SELECT COUNT(*)::int AS count FROM met_artworks`;
+  const rows = await sql`
+    SELECT COUNT(*)::int AS count FROM met_artworks
+    WHERE classification ILIKE '%painting%' AND LOWER(classification) <> 'painting'
+  `;
   return (rows[0] as { count: number }).count;
 }
 
 export async function getMetArtworkAtOffset(
   offset: number,
 ): Promise<MetArtworkRow | null> {
-  const rows =
-    await sql`SELECT * FROM met_artworks ORDER BY id OFFSET ${offset} LIMIT 1`;
+  const rows = await sql`
+    SELECT * FROM met_artworks
+    WHERE classification ILIKE '%painting%' AND LOWER(classification) <> 'painting'
+    ORDER BY id OFFSET ${offset} LIMIT 1
+  `;
   return (rows[0] as MetArtworkRow) ?? null;
 }
 
