@@ -32,7 +32,7 @@ export async function GET() {
         /<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/,
       );
       const title = (titleMatch?.[1] ?? "").trim();
-      return !title.includes("Deal of the Week") && !BLOCKED_TOPICS.test(title);
+      return !BLOCKED_TOPICS.test(title);
     })
     .slice(0, 5);
 
