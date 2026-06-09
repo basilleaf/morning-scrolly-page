@@ -1,8 +1,21 @@
 "use client";
 
-import { PEACH, PEACH_SOFT, LAVENDER_BG, PAGE_BG, FONT_DISPLAY, FONT_BODY, fade } from "../app/_lib/theme";
+import {
+  PEACH,
+  PEACH_SOFT,
+  LAVENDER_BG,
+  PAGE_BG,
+  FONT_DISPLAY,
+  FONT_BODY,
+  fade,
+} from "../app/_lib/theme";
 
-type Weather = { summary: string; emoji: string; sunrise: string; sunset: string };
+type Weather = {
+  summary: string;
+  emoji: string;
+  sunrise: string;
+  sunset: string;
+};
 type Aqi = { aqi: number; category: string; emoji: string };
 
 type Props = {
@@ -36,7 +49,9 @@ export default function HeroDate({
         background: `linear-gradient(160deg, ${PEACH_SOFT}88 0%, ${LAVENDER_BG} 60%, ${PAGE_BG} 100%)`,
       }}
     >
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 4 }}>
+      <div
+        style={{ display: "flex", justifyContent: "flex-end", marginBottom: 4 }}
+      >
         {isLoggedIn === true ? (
           <button
             onClick={onLogout}
@@ -116,23 +131,25 @@ export default function HeroDate({
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            background: "white",
-            borderRadius: 99,
-            padding: "8px 16px",
-            fontSize: 13,
-            color: "#666",
-            fontWeight: 500,
-            boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-          }}
-        >
-          <a href="weather://" style={{ textDecoration: "none" }}>{weather?.emoji ?? "🌡️"}</a>
-          <span>{weather?.summary ?? "Loading…"}</span>
-        </div>
+        <a href="weather://" style={{ textDecoration: "none" }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "white",
+              borderRadius: 99,
+              padding: "8px 16px",
+              fontSize: 13,
+              color: "#666",
+              fontWeight: 500,
+              boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+            }}
+          >
+            {weather?.emoji ?? "🌡️"}
+            <span>{weather?.summary ?? "Loading…"}</span>
+          </div>
+        </a>
         {weather?.sunrise && (
           <div
             style={{
