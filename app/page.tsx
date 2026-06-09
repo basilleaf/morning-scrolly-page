@@ -24,6 +24,7 @@ import GoodNewsSection, {
 import HeroDate from "../components/HeroDate";
 import LoginModal from "../components/LoginModal";
 import MorningBriefSection from "../components/MorningBriefSection";
+import CalGardeningSection from "../components/CalGardeningSection";
 import EpicGardeningSection from "../components/EpicGardeningSection";
 import SunsetSection from "../components/SunsetSection";
 import NasaNewsSection from "../components/NasaNewsSection";
@@ -72,6 +73,7 @@ export default function MorningPage() {
   const [yogaStories, setYogaStories] = useState<GoodNewsStory[]>([]);
   const [nasaStories, setNasaStories] = useState<GoodNewsStory[]>([]);
   const [gardenStories, setGardenStories] = useState<GoodNewsStory[]>([]);
+  const [calGardenStories, setCalGardenStories] = useState<GoodNewsStory[]>([]);
   const [sunsetStories, setSunsetStories] = useState<GoodNewsStory[]>([]);
 
   useEffect(() => {
@@ -115,6 +117,10 @@ export default function MorningPage() {
     fetch("/api/epic-gardening")
       .then((r) => r.json())
       .then((d) => d.stories && setGardenStories(d.stories))
+      .catch(() => {});
+    fetch("/api/cal-gardening")
+      .then((r) => r.json())
+      .then((d) => d.stories && setCalGardenStories(d.stories))
       .catch(() => {});
     fetch("/api/sunset")
       .then((r) => r.json())
@@ -213,6 +219,7 @@ export default function MorningPage() {
       <YogaJournalSection visible={visible} stories={yogaStories} />
       <NasaNewsSection visible={visible} stories={nasaStories} />
       <EpicGardeningSection visible={visible} stories={gardenStories} />
+      <CalGardeningSection visible={visible} stories={calGardenStories} />
       <SunsetSection visible={visible} stories={sunsetStories} />
     </div>
   );
