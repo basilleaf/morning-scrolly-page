@@ -36,7 +36,7 @@ export default function ArtOfDaySection({ visible, artwork }: Props) {
             <img
               src={artwork.imageUrl}
               alt={artwork.title}
-              style={{ width: "100%", display: "block", maxHeight: 320, objectFit: "cover" }}
+              style={{ width: "100%", display: "block" }}
             />
           ) : (
             <div

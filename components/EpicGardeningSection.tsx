@@ -88,8 +88,6 @@ export default function EpicGardeningSection({ visible, stories }: Props) {
                         alt=""
                         style={{
                           width: "100%",
-                          height: 130,
-                          objectFit: "cover",
                           display: "block",
                         }}
                       />

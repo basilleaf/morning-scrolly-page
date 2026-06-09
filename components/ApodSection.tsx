@@ -38,7 +38,7 @@ export default function ApodSection({ visible, apod }: Props) {
                 <img
                   src={apod.thumbnail_url}
                   alt={apod.title ?? "Astronomy Picture of the Day"}
-                  style={{ width: "100%", display: "block", maxHeight: 320, objectFit: "cover" }}
+                  style={{ width: "100%", display: "block" }}
                 />
                 <div
                   style={{
