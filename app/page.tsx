@@ -221,6 +221,15 @@ export default function MorningPage() {
       <EpicGardeningSection visible={visible} stories={gardenStories} />
       <CalGardeningSection visible={visible} stories={calGardenStories} />
       <SunsetSection visible={visible} stories={sunsetStories} />
+      <div style={{ textAlign: "center", padding: "2rem 0 3rem" }}>
+        <a
+          href="#top"
+          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+          style={{ fontSize: "0.85rem", opacity: 0.5, textDecoration: "none", letterSpacing: "0.05em" }}
+        >
+          ↑ Return to Top
+        </a>
+      </div>
     </div>
   );
 }
