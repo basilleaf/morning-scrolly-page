@@ -106,7 +106,7 @@ export default function BreatheSection({ visible }: Props) {
             <span
               style={{
                 position: "absolute",
-                fontSize: 11,
+                fontSize: 15,
                 fontWeight: 700,
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
@@ -119,7 +119,7 @@ export default function BreatheSection({ visible }: Props) {
             <span
               style={{
                 position: "absolute",
-                fontSize: 11,
+                fontSize: 15,
                 fontWeight: 700,
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",

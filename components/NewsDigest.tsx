@@ -60,7 +60,7 @@ export default function NewsDigest() {
             border: "none",
             borderRadius: 99,
             padding: "7px 14px",
-            fontSize: 13,
+            fontSize: 15,
             color: "#888",
             fontWeight: 500,
             cursor: "pointer",
@@ -87,7 +87,7 @@ export default function NewsDigest() {
         }}
       >
         {error ? (
-          <p style={{ fontSize: "14px", color: "#E24B4A", margin: 0 }}>
+          <p style={{ fontSize: "15px", color: "#E24B4A", margin: 0 }}>
             {error}
           </p>
         ) : (
@@ -108,7 +108,7 @@ export default function NewsDigest() {
             <div>
               <p
                 style={{
-                  fontSize: "14px",
+                  fontSize: "15px",
                   margin: 0,
                   color: loading ? "#aaa" : "inherit",
                 }}
@@ -133,7 +133,7 @@ export default function NewsDigest() {
                         display: "flex",
                         alignItems: "flex-start",
                         gap: "7px",
-                        fontSize: "13px",
+                        fontSize: "15px",
                         color: "#555",
                       }}
                     >
@@ -156,7 +156,7 @@ export default function NewsDigest() {
           </div>
         )}
       </div>
-      <p style={{ fontSize: "11px", color: "#bbb", margin: "6px 0 0" }}>
+      <p style={{ fontSize: "15px", color: "#bbb", margin: "6px 0 0" }}>
         94546 · Castro Valley
       </p>
     </div>

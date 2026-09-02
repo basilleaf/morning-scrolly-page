@@ -52,7 +52,7 @@ export default function QuoteSection({ visible, quote }: Props) {
         <div
           style={{
             marginTop: 12,
-            fontSize: 12,
+            fontSize: 15,
             fontWeight: 600,
             color: "#A05050",
             letterSpacing: "0.04em",

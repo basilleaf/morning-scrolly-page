@@ -72,7 +72,8 @@ export default function ApodSection({ visible, apod }: Props) {
                 style={{
                   width: "100%",
                   aspectRatio: "4/3",
-                  background: "linear-gradient(135deg, #1a0a2e, #2d1b5e, #4a2d8a)",
+                  background:
+                    "linear-gradient(135deg, #1a0a2e, #2d1b5e, #4a2d8a)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -86,14 +87,20 @@ export default function ApodSection({ visible, apod }: Props) {
             <img
               src={apod.url}
               alt={apod.title ?? "Astronomy Picture of the Day"}
-              style={{ width: "100%", display: "block", maxHeight: 320, objectFit: "cover" }}
+              style={{
+                width: "100%",
+                display: "block",
+                maxHeight: 320,
+                objectFit: "cover",
+              }}
             />
           ) : (
             <div
               style={{
                 width: "100%",
                 aspectRatio: "4/3",
-                background: "linear-gradient(135deg, #1a0a2e, #2d1b5e, #4a2d8a)",
+                background:
+                  "linear-gradient(135deg, #1a0a2e, #2d1b5e, #4a2d8a)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -106,7 +113,7 @@ export default function ApodSection({ visible, apod }: Props) {
           <div style={{ padding: "14px 16px 16px" }}>
             <div
               style={{
-                fontSize: 10,
+                fontSize: 15,
                 color: "#9B8FC0",
                 fontWeight: 700,
                 letterSpacing: "0.12em",
@@ -117,7 +124,12 @@ export default function ApodSection({ visible, apod }: Props) {
               Astronomy Picture of the Day · NASA
             </div>
             <div
-              style={{ fontSize: 15, fontWeight: 700, color: "#2D2D2D", marginBottom: 8 }}
+              style={{
+                fontSize: 15,
+                fontWeight: 700,
+                color: "#2D2D2D",
+                marginBottom: 8,
+              }}
             >
               {apod?.title ?? "Loading…"}
             </div>
@@ -137,7 +149,7 @@ export default function ApodSection({ visible, apod }: Props) {
               </div>
             )}
             {apod?.copyright && (
-              <div style={{ fontSize: 12, color: "#BBB", marginTop: 8 }}>
+              <div style={{ fontSize: 15, color: "#BBB", marginTop: 8 }}>
                 © {apod.copyright.trim()}
               </div>
             )}

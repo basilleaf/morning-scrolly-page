@@ -50,7 +50,7 @@ export default function ArtOfDaySection({ visible, artwork }: Props) {
           <div style={{ padding: "14px 16px 16px" }}>
             <div
               style={{
-                fontSize: 10,
+                fontSize: 15,
                 color: PEACH,
                 fontWeight: 700,
                 letterSpacing: "0.12em",
@@ -61,12 +61,17 @@ export default function ArtOfDaySection({ visible, artwork }: Props) {
               Art of the Day · The Met
             </div>
             <div
-              style={{ fontSize: 15, fontWeight: 700, color: "#2D2D2D", marginBottom: 2 }}
+              style={{
+                fontSize: 15,
+                fontWeight: 700,
+                color: "#2D2D2D",
+                marginBottom: 2,
+              }}
             >
               {artwork?.title ?? "Loading…"}
             </div>
             {artwork?.artist && (
-              <div style={{ fontSize: 12, color: "#999", marginBottom: 2 }}>
+              <div style={{ fontSize: 15, color: "#999", marginBottom: 2 }}>
                 {artwork.artist}
                 {artwork.date ? ` · ${artwork.date}` : ""}
               </div>
@@ -74,7 +79,7 @@ export default function ArtOfDaySection({ visible, artwork }: Props) {
             {artwork?.medium && (
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 15,
                   color: "#BBB",
                   marginBottom: artwork.description ? 10 : 0,
                 }}
@@ -83,7 +88,15 @@ export default function ArtOfDaySection({ visible, artwork }: Props) {
               </div>
             )}
             {artwork?.description && (
-              <div style={{ fontSize: 17, lineHeight: 1.7, fontWeight: 400, color: "#666", marginTop: 8 }}>
+              <div
+                style={{
+                  fontSize: 17,
+                  lineHeight: 1.7,
+                  fontWeight: 400,
+                  color: "#666",
+                  marginTop: 8,
+                }}
+              >
                 {artwork.description}
               </div>
             )}

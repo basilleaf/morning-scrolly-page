@@ -37,7 +37,9 @@ export default function SunsetSection({ visible, stories }: Props) {
                     marginBottom: i < 2 ? 14 : 0,
                   }}
                 >
-                  <div style={{ height: 130, background: TERRA_SKELETON + "66" }} />
+                  <div
+                    style={{ height: 130, background: TERRA_SKELETON + "66" }}
+                  />
                   <div
                     style={{
                       padding: "10px 12px 12px",
@@ -107,7 +109,7 @@ export default function SunsetSection({ visible, stories }: Props) {
                       {story.description && (
                         <div
                           style={{
-                            fontSize: 13,
+                            fontSize: 15,
                             color: TERRA_LIGHT,
                             lineHeight: 1.55,
                             display: "-webkit-box",
@@ -130,7 +132,7 @@ export default function SunsetSection({ visible, stories }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              fontSize: 11,
+              fontSize: 15,
               color: TERRA,
               fontWeight: 600,
               textDecoration: "none",

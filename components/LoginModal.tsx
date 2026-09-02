@@ -57,7 +57,10 @@ export default function LoginModal({
         >
           Sign in
         </div>
-        <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <form
+          onSubmit={handleLogin}
+          style={{ display: "flex", flexDirection: "column", gap: 10 }}
+        >
           <input
             type="email"
             placeholder="Email"
@@ -69,7 +72,7 @@ export default function LoginModal({
               border: `1.5px solid ${PEACH_SOFT}`,
               borderRadius: 10,
               padding: "9px 12px",
-              fontSize: 14,
+              fontSize: 15,
               outline: "none",
               fontFamily: FONT_BODY,
               color: "#2D2D2D",
@@ -85,14 +88,16 @@ export default function LoginModal({
               border: `1.5px solid ${PEACH_SOFT}`,
               borderRadius: 10,
               padding: "9px 12px",
-              fontSize: 14,
+              fontSize: 15,
               outline: "none",
               fontFamily: FONT_BODY,
               color: "#2D2D2D",
             }}
           />
           {loginError && (
-            <p style={{ fontSize: 13, color: "#E24B4A", margin: 0 }}>{loginError}</p>
+            <p style={{ fontSize: 15, color: "#E24B4A", margin: 0 }}>
+              {loginError}
+            </p>
           )}
           <button
             type="submit"
@@ -102,7 +107,7 @@ export default function LoginModal({
               border: "none",
               borderRadius: 10,
               color: "white",
-              fontSize: 14,
+              fontSize: 15,
               fontWeight: 600,
               padding: "10px",
               cursor: "pointer",

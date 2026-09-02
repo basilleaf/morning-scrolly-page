@@ -40,7 +40,7 @@ export default function SongCard({ visible, song }: Props) {
           <div style={{ flex: 1, minWidth: 0 }}>
             <div
               style={{
-                fontSize: 10,
+                fontSize: 15,
                 fontWeight: 700,
                 color: "#9B8FC0",
                 letterSpacing: "0.12em",

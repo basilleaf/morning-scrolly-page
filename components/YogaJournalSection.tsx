@@ -102,7 +102,7 @@ export default function YogaJournalSection({ visible, stories }: Props) {
                       {story.description && (
                         <div
                           style={{
-                            fontSize: 13,
+                            fontSize: 15,
                             color: "#6A52C4",
                             lineHeight: 1.55,
                             display: "-webkit-box",
@@ -125,7 +125,7 @@ export default function YogaJournalSection({ visible, stories }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              fontSize: 11,
+              fontSize: 15,
               color: "#6A52C4",
               fontWeight: 600,
               textDecoration: "none",

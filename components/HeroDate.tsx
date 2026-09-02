@@ -58,7 +58,7 @@ export default function HeroDate({
             style={{
               background: "none",
               border: "none",
-              fontSize: 11,
+              fontSize: 15,
               color: "#C0B0A0",
               fontWeight: 600,
               letterSpacing: "0.08em",
@@ -76,7 +76,7 @@ export default function HeroDate({
             style={{
               background: "none",
               border: "none",
-              fontSize: 11,
+              fontSize: 15,
               color: PEACH,
               fontWeight: 600,
               letterSpacing: "0.08em",
@@ -94,7 +94,7 @@ export default function HeroDate({
       <div
         suppressHydrationWarning
         style={{
-          fontSize: 12,
+          fontSize: 15,
           fontWeight: 600,
           color: PEACH,
           letterSpacing: "0.2em",
@@ -140,7 +140,7 @@ export default function HeroDate({
               background: "white",
               borderRadius: 99,
               padding: "8px 16px",
-              fontSize: 13,
+              fontSize: 15,
               color: "#666",
               fontWeight: 500,
               boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
@@ -159,7 +159,7 @@ export default function HeroDate({
               background: "white",
               borderRadius: 99,
               padding: "8px 16px",
-              fontSize: 13,
+              fontSize: 15,
               color: "#666",
               fontWeight: 500,
               boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
@@ -180,7 +180,7 @@ export default function HeroDate({
               background: "white",
               borderRadius: 99,
               padding: "8px 16px",
-              fontSize: 13,
+              fontSize: 15,
               color: "#666",
               fontWeight: 500,
               boxShadow: "0 2px 12px rgba(0,0,0,0.06)",

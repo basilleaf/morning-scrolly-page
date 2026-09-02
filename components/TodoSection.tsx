@@ -45,12 +45,17 @@ export default function TodoSection({ visible }: Props) {
   const [newTodo, setNewTodo] = useState("");
 
   useEffect(() => {
-    fetch("/api/todos").then((r) => r.json()).then(setTodos).catch(() => {});
+    fetch("/api/todos")
+      .then((r) => r.json())
+      .then(setTodos)
+      .catch(() => {});
   }, []);
 
   const toggleTodo = async (todo: Todo) => {
     const next = !todo.done;
-    setTodos((prev) => prev.map((t) => (t.id === todo.id ? { ...t, done: next } : t)));
+    setTodos((prev) =>
+      prev.map((t) => (t.id === todo.id ? { ...t, done: next } : t)),
+    );
     await fetch(`/api/todos/${todo.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -93,8 +98,14 @@ export default function TodoSection({ visible }: Props) {
         </SectionLabel>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {todos.map((todo) => (
-            <div key={todo.id} style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <div onClick={() => toggleTodo(todo)} style={{ cursor: "pointer" }}>
+            <div
+              key={todo.id}
+              style={{ display: "flex", alignItems: "center", gap: 14 }}
+            >
+              <div
+                onClick={() => toggleTodo(todo)}
+                style={{ cursor: "pointer" }}
+              >
                 <CheckIcon checked={todo.done} />
               </div>
               <span
@@ -131,7 +142,14 @@ export default function TodoSection({ visible }: Props) {
               </button>
             </div>
           ))}
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 4 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              marginTop: 4,
+            }}
+          >
             <div style={{ width: 26, height: 26, flexShrink: 0 }} />
             <input
               value={newTodo}
@@ -144,7 +162,7 @@ export default function TodoSection({ visible }: Props) {
                 borderBottom: `1.5px solid ${PEACH_SOFT}`,
                 outline: "none",
                 background: "transparent",
-                fontSize: 14,
+                fontSize: 15,
                 color: "#2D2D2D",
                 fontFamily: FONT_BODY,
                 padding: "3px 0",
@@ -158,7 +176,7 @@ export default function TodoSection({ visible }: Props) {
                   border: "none",
                   borderRadius: 99,
                   color: "white",
-                  fontSize: 12,
+                  fontSize: 15,
                   fontWeight: 600,
                   padding: "4px 10px",
                   cursor: "pointer",

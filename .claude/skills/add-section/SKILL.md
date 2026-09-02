@@ -107,7 +107,7 @@ Find the `{/* SECTION ABOVE */}` comment for the desired position. Add after it:
 
     {/* Text body */}
     <div style={{ padding: "14px 16px 16px" }}>
-      <div style={{ fontSize: 10, color: MINT, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 5 }}>
+      <div style={{ fontSize: 15, color: MINT, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 5 }}>
         Source Name
       </div>
       <div style={{ fontSize: 15, fontWeight: 700, color: "#2D2D2D", marginBottom: 8 }}>

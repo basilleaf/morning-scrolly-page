@@ -49,10 +49,20 @@ export default function GoodNewsSection({ visible, stories }: Props) {
                     }}
                   >
                     <div
-                      style={{ height: 13, borderRadius: 6, background: MINT + "55", width: "85%" }}
+                      style={{
+                        height: 13,
+                        borderRadius: 6,
+                        background: MINT + "55",
+                        width: "85%",
+                      }}
                     />
                     <div
-                      style={{ height: 11, borderRadius: 6, background: MINT + "33", width: "60%" }}
+                      style={{
+                        height: 11,
+                        borderRadius: 6,
+                        background: MINT + "33",
+                        width: "60%",
+                      }}
                     />
                   </div>
                 </div>
@@ -96,7 +106,7 @@ export default function GoodNewsSection({ visible, stories }: Props) {
                       {story.description && (
                         <div
                           style={{
-                            fontSize: 13,
+                            fontSize: 15,
                             color: "#5A8070",
                             lineHeight: 1.55,
                             display: "-webkit-box",
@@ -119,7 +129,7 @@ export default function GoodNewsSection({ visible, stories }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              fontSize: 11,
+              fontSize: 15,
               color: "#7ABBA0",
               fontWeight: 600,
               textDecoration: "none",
