@@ -83,7 +83,7 @@ export default function ArtOfDaySection({ visible, artwork }: Props) {
               </div>
             )}
             {artwork?.description && (
-              <div style={{ fontSize: 15, lineHeight: 1.65, color: "#666", marginTop: 8 }}>
+              <div style={{ fontSize: 17, lineHeight: 1.7, fontWeight: 400, color: "#666", marginTop: 8 }}>
                 {artwork.description}
               </div>
             )}
